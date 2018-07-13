@@ -1,7 +1,7 @@
 " A few sane defaults for use in ArchLabs
 
 " load Arch Linux defaults
-runtime! archlinux.vim
+" runtime! archlinux.vim
 
 " yank text to system clipboard (requires +clipboard)
 set clipboard^=unnamedplus
@@ -28,13 +28,13 @@ endif
 
 " syntax highlighting with true colors in the terminal
 syntax enable
-if has('termguicolors')
-    if &term =~? 'screen\|tmux'
-        set t_8f=^[[38;2;%lu;%lu;%lum
-        set t_8b=^[[48;2;%lu;%lu;%lum
-    endif
-    set termguicolors
-endif
+"if has('termguicolors')
+"    if &term =~? 'screen\|tmux'
+"        set t_8f=^[[38;2;%lu;%lu;%lum
+"        set t_8b=^[[48;2;%lu;%lu;%lum
+"    endif
+"    set termguicolors
+"endif
 
 " bracketed paste while in insert mode, bracketed paste preserves indentation
 inoremap <silent><C-v> <Esc>:set paste<CR>a<C-r>+<Esc>:set nopaste<CR>a

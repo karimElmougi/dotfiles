@@ -1,5 +1,3 @@
-# ArchLabs i3 config
-
 # Xresources      var      value       fallback
 set_from_resource $bg      background  #19043C
 set_from_resource $fg      foreground  #F1F1F1
@@ -35,19 +33,25 @@ set $Mod Mod4
 #set $Mod Mod1
 
 # direction keys
+# Virtual Machine compatible (Super + L locks pc on Windows)
 set $up l
 set $down k
 set $left j
 set $right semicolon
+# Real hardware, vim-like
+# set $up k
+# set $down
+# set $left h
+# set $right l
 
-set $WS1 "1: "
-set $WS2 "2: "
-set $WS3 "3: "
-set $WS4 "4: "
-set $WS5 "5: "
-set $WS6 "6: "
-set $WS7 "7: "
-set $WS8 "8: "
+set $WS1 "1"
+set $WS2 "2"
+set $WS3 "3"
+set $WS4 "4"
+set $WS5 "5"
+set $WS6 "6"
+set $WS7 "7"
+set $WS8 "8"
 
 # monitors
 set $Mon1 HDMI1
@@ -58,26 +62,17 @@ set $Mon2 HDMI2
 #####################################################
 
 # run with reload
-exec_always --no-startup-id al-polybar-session
-exec_always --no-startup-id nitrogen --restore
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+#exec_always --no-startup-id al-polybar-session
 exec_always --no-startup-id xrdb -load ~/.Xresources
-
-# Trayer
-#exec_always --no-startup-id pkill trayer; trayer --edge bottom \
-#                --align left --heighttype pixel --height 18 --widthtype request \
-#                --SetDockType false --expand true --transparent true --alpha 255
 
 # If you have a numpad you may want to enable this
  exec_always --no-startup-id numlockx on
 
 # run once
 exec --no-startup-id VBoxClient-all
-#exec --no-startup-id "sh -c 'sleep 1; exec conky -c ~/.conkyrc'"
-exec --no-startup-id ksuperkey -e 'Super_L=Alt_L|F1'
-exec --no-startup-id al-compositor --start
-exec --no-startup-id nitrogen --restore
-exec --no-startup-id xfsettingsd
-exec --no-startup-id lxpolkit
+#exec --no-startup-id compton -b
+#exec --no-startup-id xfsettingsd
 
 ###########################################################
 #############         Bindings           ##################
@@ -87,37 +82,24 @@ exec --no-startup-id lxpolkit
 bindsym $Mod+Shift+q kill
 
 # launchers
-bindsym $Mod+d exec --no-startup-id rofr.sh -r
-
-bindsym $Mod+s exec --no-startup-id catfish
+#bindsym $Mod+d exec --no-startup-id rofr.sh -r
+#bindsym $Mod+d exec --no-startup-id dmenu_run
 
 # core
-bindsym $Mod+e exec exo-open --launch FileManager
-bindsym $Mod+Return exec exo-open --launch TerminalEmulator
-bindsym $Mod+w exec exo-open --launch WebBrowser
+bindsym $Mod+e exec ranger
+bindsym $Mod+Return exec st -f Hack
+bindsym $Mod+w exec firefox
 
 bindsym $Mod+f fullscreen toggle
 
 # logout script
-bindsym $Mod+x exec --no-startup-id rofr.sh -l
+#bindsym $Mod+x exec --no-startup-id rofr.sh -l
+#bindsym $Mod+x exec --no-startup-id dmenu -l
 
 # Screenshot
 bindsym Print exec --no-startup-id "scrot '%S.png' \
-            -e 'mv $f $$(xdg-user-dir PICTURES)/ArchLabs-%S-$wx$h.png \
-            ; gpicview $$(xdg-user-dir PICTURES)/ArchLabs-%S-$wx$h.png'"
-
-# audio
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-bindsym XF86AudioStop exec --no-startup-id playerctl stop
-bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 2
-bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 2
-bindsym XF86AudioMute exec --no-startup-id pamixer -t
-
-# backlight
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+            -e 'mv $f $$(xdg-user-dir PICTURES)/Screentshot-%S-$wx$h.png \
+            ; feh $$(xdg-user-dir PICTURES)/Screenshot-%S-$wx$h.png'"
 
 ################################################################
 ###########          Workspace Bindings          ###############
@@ -253,14 +235,13 @@ bindsym $Mod+Control+Shift+minus gaps outer all minus 5
 ###################################################
 
 for_window [class="(?i)(?:qt5ct|pinentry)"] floating enable, focus
-for_window [class="(?i)(?:termite|thunar)"] focus
+for_window [class="(?i)(?:termite|thunar|st)"] focus
 for_window [class="(?i)(?:geany|firefox)"] focus
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [window_role="(?i)(?:pop-up|setup)"] floating enable
 
-# set trayer to be borderless
-for_window [class="(?i)trayer"] border pixel 0
-
-
+bar {
+    status_command i3status
+}
