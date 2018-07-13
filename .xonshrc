@@ -1,3 +1,5 @@
+$PATH = ["~/bin", "usr/local/bin", "/bin", "/usr/bin"]
+
 aliases["vim"] = "nvim"
 aliases["shutdown"] = "runit-init 0"
 aliases["reboot"] = "runit-init 6"
@@ -5,4 +7,5 @@ aliases["reboot"] = "runit-init 6"
 $LAN="en_CA.UTF-8"
 $LC_ALL="en_CA.UTF-8"
 
+(cat ~/.cache/wal/sequences)
 neofetch

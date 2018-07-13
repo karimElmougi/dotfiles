@@ -65,12 +65,11 @@ set $Mon2 HDMI2
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 #exec_always --no-startup-id al-polybar-session
 exec_always --no-startup-id xrdb -load ~/.Xresources
-
-# If you have a numpad you may want to enable this
- exec_always --no-startup-id numlockx on
+exec_always --no-startup-id numlockx on
 
 # run once
 exec --no-startup-id VBoxClient-all
+exec --no-startup-id wal -R
 #exec --no-startup-id compton -b
 #exec --no-startup-id xfsettingsd
 
