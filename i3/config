@@ -70,7 +70,7 @@ exec_always --no-startup-id numlockx on
 # run once
 exec --no-startup-id VBoxClient-all
 exec --no-startup-id wal -R
-#exec --no-startup-id compton -b
+exec --no-startup-id compton -b
 #exec --no-startup-id xfsettingsd
 
 ###########################################################
@@ -241,6 +241,3 @@ for_window [class="(?i)(?:geany|firefox)"] focus
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [window_role="(?i)(?:pop-up|setup)"] floating enable
 
-bar {
-    status_command i3status
-}
