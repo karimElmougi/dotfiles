@@ -63,7 +63,6 @@ set $Mon2 HDMI2
 
 # run with reload
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-#exec_always --no-startup-id al-polybar-session
 exec_always --no-startup-id xrdb -load ~/.Xresources
 exec_always --no-startup-id numlockx on
 
@@ -86,7 +85,10 @@ bindsym $Mod+Shift+q kill
 
 # core
 bindsym $Mod+e exec ranger
-bindsym $Mod+Return exec st -f Hack
+#bindsym $Mod+Return exec st -f Inconsolata
+#bindsym $Mod+Return exec sakura
+#bindsym $Mod+Return exec xfce4-terminal
+bindsym $Mod+Return exec urxvt
 bindsym $Mod+w exec firefox
 
 bindsym $Mod+f fullscreen toggle
