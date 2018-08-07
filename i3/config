@@ -88,7 +88,8 @@ bindsym $Mod+e exec ranger
 #bindsym $Mod+Return exec st -f Inconsolata
 #bindsym $Mod+Return exec sakura
 #bindsym $Mod+Return exec xfce4-terminal
-bindsym $Mod+Return exec urxvt
+#bindsym $Mod+Return exec urxvt
+bindsym $Mod+Return exec termite
 bindsym $Mod+w exec firefox
 
 bindsym $Mod+f fullscreen toggle
