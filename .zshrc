@@ -95,6 +95,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#
+
+export EDITOR="nvim"
+export PATH=~/bin:$PATH
+
+alias vim="nvim"
+alias wal="wal -b '#000000'"
+
 (cat ~/.cache/wal/sequences &)
 neofetch
