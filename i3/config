@@ -80,7 +80,7 @@ exec --no-startup-id compton -b
 bindsym $Mod+Shift+q kill
 
 # launchers
-#bindsym $Mod+d exec --no-startup-id rofr.sh -r
+bindsym $Mod+d exec --no-startup-id rofr.sh -r
 #bindsym $Mod+d exec --no-startup-id dmenu_run
 
 # core
@@ -95,7 +95,7 @@ bindsym $Mod+w exec firefox
 bindsym $Mod+f fullscreen toggle
 
 # logout script
-#bindsym $Mod+x exec --no-startup-id rofr.sh -l
+bindsym $Mod+x exec --no-startup-id rofr.sh -l
 #bindsym $Mod+x exec --no-startup-id dmenu -l
 
 # Screenshot
