@@ -5,7 +5,7 @@ ICON=/usr/share/icons/gnome/32x32/apps/system-software-update.png
 
 while true; do
     sudo xbps-install -S > /dev/null
-    updates=$(xbps-install -uvn | wc -l)
+    updates=$(xbps-install -un | wc -l)
     if hash notify-send &>/dev/null; then
         if [[ $updates -gt 50 ]]; then
             notify-send -u critical -i $ICON \

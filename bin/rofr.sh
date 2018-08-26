@@ -36,7 +36,7 @@ while getopts ":hvqwcbrl" opt; do
             #    -columns 2 -padding 50 -hide-scrollbar \
             #    -show-icons -drun-icon-theme "ArchLabs-Light"
             #;;
-            rofi -show run -modi run -location 1 -width 100 \
+            rofi -modi run,drun -show drun -location 1 -width 100 \
 		 -lines 1 -line-margin 0 -line-padding 1 \
 		 -separator-style none -font "mono 10" -columns 9 -bw 0 \
 		 -disable-history \
