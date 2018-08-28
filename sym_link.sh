@@ -13,3 +13,7 @@ ln -s $(pwd)/rofi ~/.config/
 ln -s $(pwd)/termite ~/.config/
 
 echo '%wheel ALL=NOPASSWD: /usr/bin/xbps-install -S' | sudo tee -a /etc/sudoers 
+
+cd ~/Pictures
+wget https://i.imgur.com/HktehdS.png
+wal -i HktehdS.png
