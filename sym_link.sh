@@ -11,3 +11,5 @@ ln -s $(pwd)/polybar ~/.config/
 ln -s $(pwd)/ranger ~/.config/
 ln -s $(pwd)/rofi ~/.config/
 ln -s $(pwd)/termite ~/.config/
+
+echo '%wheel ALL=NOPASSWD: /usr/bin/xbps-install -S' | sudo tee -a /etc/sudoers 
