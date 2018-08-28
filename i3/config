@@ -67,7 +67,6 @@ exec_always --no-startup-id xrdb -load ~/.Xresources
 exec_always --no-startup-id numlockx on
 
 # run once
-exec --no-startup-id VBoxClient-all
 exec --no-startup-id wal -R
 exec --no-startup-id compton -b
 #exec --no-startup-id xfsettingsd
@@ -85,10 +84,6 @@ bindsym $Mod+d exec --no-startup-id rofr.sh -r
 
 # core
 bindsym $Mod+e exec ranger
-#bindsym $Mod+Return exec st -f Inconsolata
-#bindsym $Mod+Return exec sakura
-#bindsym $Mod+Return exec xfce4-terminal
-#bindsym $Mod+Return exec urxvt
 bindsym $Mod+Return exec termite
 bindsym $Mod+w exec firefox
 
