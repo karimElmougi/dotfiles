@@ -65,14 +65,15 @@ while getopts ":hvqwcbrl" opt; do
                 -padding 50 -line-padding 4)
             ;;
         l)
-            ANS=$(echo " Lock| Logout| Reboot| Shutdown" | \
+            #ANS=$(echo " Lock| Logout| Reboot| Shutdown" | \
+            ANS=$(echo " Lock| Reboot| Shutdown" | \
                 rofi -sep "|" -dmenu -i -p 'System: ' "" -width 20 \
                 -hide-scrollbar -eh 1 -line-padding 4 -padding 20 -lines 4)
             case "$ANS" in
                 *Lock) i3lock-fancy ;;
-                *Logout) session-logout ;;
-                *Reboot) systemctl reboot ;;
-                *Shutdown) systemctl poweroff
+                #*Logout) session-logout ;;
+                *Reboot) sudo reboot ;;
+                *Shutdown) sudo runit-init 0
             esac
             ;;
         *)
