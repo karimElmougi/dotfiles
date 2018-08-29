@@ -8,13 +8,13 @@ while true; do
     updates=$(xbps-install -un | wc -l)
     if hash notify-send &>/dev/null; then
         if [[ $updates -gt 50 ]]; then
-            notify-send -u critical -i $ICON \
+            notify-send -u critical \
                         "You really need to update soon!!" "$updates New package updates"
         elif [[ $updates -gt 25 ]]; then
-            notify-send -u normal -i $ICON \
+            notify-send -u normal \
                         "You should update soon" "$updates New package updates"
         elif [[ $updates -gt 2 ]]; then
-            notify-send -u low -i $ICON "$updates New package updates"
+            notify-send -u low "$updates New package updates"
         fi
     fi
 
@@ -24,13 +24,15 @@ while true; do
         elif [[ $updates -gt 1 ]]; then
             echo "$updates Updates"
         fi
-        sleep 8
-        updates=$(xbps-install -Suvn | wc -l)
+        sleep 10
+	sudo xbps-install -S > /dev/null
+	updates=$(xbps-install -un | wc -l)
     done
 
     while [[ $updates -eq 0 ]]; do
         echo $BAR_ICON
         sleep 1200
-        updates=$(xbps-install -Suvn | wc -l)
+	sudo xbps-install -S > /dev/null
+	updates=$(xbps-install -un | wc -l)
     done
 done
