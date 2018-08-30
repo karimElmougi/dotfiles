@@ -11,6 +11,9 @@ ln -s $(pwd)/polybar ~/.config/
 ln -s $(pwd)/ranger ~/.config/
 ln -s $(pwd)/rofi ~/.config/
 ln -s $(pwd)/termite ~/.config/
+ln -s $(pwd)/networkmanager_dmenu ~/.config/
+
+sudo cp install/50-org.freedesktop.NetworkManager.rules /etc/polkit-1/rules.d/
 
 echo '%wheel ALL=NOPASSWD: /usr/bin/xbps-install -S' | sudo tee -a /etc/sudoers 
 echo '%wheel ALL=NOPASSWD: /usr/bin/reboot' | sudo tee -a /etc/sudoers 
