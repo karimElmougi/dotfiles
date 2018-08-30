@@ -11,7 +11,7 @@ ln -s $(pwd)/polybar ~/.config/
 ln -s $(pwd)/ranger ~/.config/
 ln -s $(pwd)/rofi ~/.config/
 ln -s $(pwd)/termite ~/.config/
-ln -s $(pwd)/networkmanager_dmenu ~/.config/
+ln -s $(pwd)/networkmanager-dmenu ~/.config/
 
 sudo cp install/50-org.freedesktop.NetworkManager.rules /etc/polkit-1/rules.d/
 sudo gpasswd -a $USER network
