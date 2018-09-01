@@ -20,7 +20,7 @@ echo '%wheel ALL=NOPASSWD: /usr/bin/xbps-install -S' | sudo tee -a /etc/sudoers
 echo '%wheel ALL=NOPASSWD: /usr/bin/reboot' | sudo tee -a /etc/sudoers 
 echo '%wheel ALL=NOPASSWD: /usr/bin/runit-init 0' | sudo tee -a /etc/sudoers 
 
-cat 70-synaptics.conf | sudo tee -a /usr/share/X11/xorg.cond.d/70-synaptics.conf
+cat 70-synaptics.conf | sudo tee -a /usr/share/X11/xorg.conf.d/70-synaptics.conf
 
 cd ~/Pictures
 wget https://i.imgur.com/HktehdS.png
