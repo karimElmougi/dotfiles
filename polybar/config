@@ -18,5 +18,5 @@ monitor =
 
 modules-left   = i3 
 ;modules-center = clock
-modules-right  = pkg filesystem memory coreuse network volume datetime
+modules-right  = pkg filesystem memory coreuse battery network volume datetime
 
