@@ -34,15 +34,15 @@ set $Mod Mod4
 
 # direction keys
 # Virtual Machine compatible (Super + L locks pc on Windows)
-set $up l
-set $down k
-set $left j
-set $right semicolon
+#set $up l
+#set $down k
+#set $left j
+#set $right semicolon
 # Real hardware, vim-like
-# set $up k
-# set $down
-# set $left h
-# set $right l
+#set $up k
+#set $down
+#set $left h
+#set $right l
 
 set $WS1 "1"
 set $WS2 "2"
@@ -54,8 +54,10 @@ set $WS7 "7"
 set $WS8 "8"
 
 # monitors
-set $Mon1 HDMI1
-set $Mon2 HDMI2
+set $Mon1 xinerama-0
+set $Mon2 xinerama-1
+
+force_xinerama yes
 
 #####################################################
 ###############     Autostart      ##################
