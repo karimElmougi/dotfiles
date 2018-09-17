@@ -1,17 +1,18 @@
 #! /usr/bin/env bash
 
-ln -s $(pwd)/.vimrc ~/
-ln -s $(pwd)/.xinitrc ~/
-ln -s $(pwd)/.zshrc ~/
-ln -s $(pwd)/bin ~/
-ln -s $(pwd)/compton.conf ~/.config/
-ln -s $(pwd)/fontconfig ~/.config/
-ln -s $(pwd)/i3 ~/.config/
-ln -s $(pwd)/polybar ~/.config/
-ln -s $(pwd)/ranger ~/.config/
-ln -s $(pwd)/rofi ~/.config/
-ln -s $(pwd)/termite ~/.config/
-ln -s $(pwd)/networkmanager-dmenu ~/.config/
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+ln -s $DIR/.vimrc ~/
+ln -s $DIR/.xinitrc ~/
+ln -s $DIR/.zshrc ~/
+ln -s $DIR/bin ~/
+ln -s $DIR/compton.conf ~/.config/
+ln -s $DIR/fontconfig ~/.config/
+ln -s $DIR/i3 ~/.config/
+ln -s $DIR/polybar ~/.config/
+ln -s $DIR/ranger ~/.config/
+ln -s $DIR/rofi ~/.config/
+ln -s $DIR/termite ~/.config/
+ln -s $DIR/networkmanager-dmenu ~/.config/
 
 sudo cp install/50-org.freedesktop.NetworkManager.rules /etc/polkit-1/rules.d/
 sudo gpasswd -a $USER network
