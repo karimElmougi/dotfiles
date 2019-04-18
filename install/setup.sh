@@ -16,5 +16,4 @@ echo '%wheel ALL=NOPASSWD: /usr/bin/runit-init 0' | sudo tee -a /etc/sudoers
 
 cd ~/Pictures
 wget https://i.imgur.com/HktehdS.png
-wal -i HktehdS.png
-
+feh --bg-fill ~/Pictures/HktehdS.png
