@@ -1,2 +1,2 @@
-exec /usr/bin/i3
+exec /bin/awesome
 wal -R

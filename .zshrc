@@ -100,7 +100,5 @@ export EDITOR="nvim"
 export PATH=~/bin:$PATH
 
 alias vim="nvim"
-alias wal="wal -b '#000000'"
 
-(cat ~/.cache/wal/sequences &)
 neofetch
