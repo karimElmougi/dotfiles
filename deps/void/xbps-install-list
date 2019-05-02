@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+if [ $# -eq 0 ]
+then
+	echo "Need package list file"
+	exit 1
+fi
+
+packages=$(cat $1 | paste -s -d ' ')
+install_cmd="sudo xbps-install -S "
+full_cmd=$install_cmd$packages
+eval $full_cmd

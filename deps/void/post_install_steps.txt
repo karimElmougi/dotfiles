@@ -1,0 +1,11 @@
+Use nvidia-xconfig to init config
+Use nvidia-settings to force full composition pipeline
+Use lxappearance to set gtk theme and fonts
+Add to Firefox's about:config: widget.content.gtk-theme-override=Vertex-Maia
+fix clock (UTC vs RTC) in /etc/rc.conf
+setup automounting usb drives and windows partitions
+add 'sudo -u $USER i3lock-fancy' to /etc/acpi/handler.sh
+(optional) display manager
+setup audio
+power management
+
