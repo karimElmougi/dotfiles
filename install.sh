@@ -19,5 +19,8 @@ for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf $f $HOME/.fonts; fi; done
 mkdir -p $HOME/.config && \
 for f in $DIR/config/*; do ln -sf $f $HOME/.config; done
 
-ls -sf .zshrc ~/
+mkdir -p $HOME/.zsh && \
+for f in $DIR/zsh/*; do ln -sf $f $HOME/.zsh; done
+
+ln -sf $DIR/.zshrc $HOME/
 
