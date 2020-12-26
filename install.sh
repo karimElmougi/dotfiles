@@ -10,9 +10,14 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-for f in $DIR/dot/.*; do if [[ -f $f ]]; then ln -sf $f ~/; fi; done
+mkdir -p $HOME/.bin && \
+for f in $DIR/bin/*; do if [[ -f $f ]]; then ln -sf $f $HOME/.bin; fi; done
 
-ln -sf $DIR/config/* ~/.config/
+mkdir -p $HOME/.fonts && \
+for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf $f $HOME/.fonts; fi; done
+
+mkdir -p $HOME/.config && \
+for f in $DIR/config/*; do ln -sf $f $HOME/.config; done
 
 ls -sf .zshrc ~/
 
