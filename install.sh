@@ -19,8 +19,14 @@ for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf $f $HOME/.fonts; fi; done
 mkdir -p $HOME/.config && \
 for f in $DIR/config/*; do ln -sf $f $HOME/.config; done
 
-mkdir -p $HOME/.zsh && \
-for f in $DIR/zsh/*; do ln -sf $f $HOME/.zsh; done
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+git clone https://github.com/zdharma/fast-syntax-highlighting.git \
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+rm $HOME/.zshrc
 ln -sf $DIR/.zshrc $HOME/
 
