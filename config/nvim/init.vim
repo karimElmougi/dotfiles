@@ -50,6 +50,11 @@ call plug#end()
 nmap <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeIgnore = ['^node_modules$']
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
 " rainbow
 let g:rainbow_active = 1
@@ -86,7 +91,6 @@ set smartindent
 " set relative line numbers and absolute
 set number
 set relativenumber
-set clipboard=unnamed
 
 " keybinds
 " use vim-move to move lines up or down using <S-J> and <S-K>
