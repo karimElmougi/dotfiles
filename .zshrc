@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export ZSH="/home/k.elmougi/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 plugins=(fast-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
