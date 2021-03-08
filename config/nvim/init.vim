@@ -43,6 +43,10 @@ Plug 'lifepillar/pgsql.vim', { 'for': 'sql' }
 
 "sh
 Plug 'sbdchd/neoformat', {'for': ['sql', 'sh'] }
+
+"toml
+Plug 'cespare/vim-toml', {'for': ['toml']}
+
 call plug#end()
 
 " pluging specific 
@@ -55,6 +59,7 @@ let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
 let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
 let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let NERDTreeShowHidden=1
 
 " rainbow
 let g:rainbow_active = 1
@@ -72,7 +77,7 @@ set mouse=a
 set splitbelow
 set splitright
 set updatetime=300
-set clipboard+=unnamedplus
+set clipboard=unnamedplus
 " does not launch vi
 set nocompatible
 " colors for theme
