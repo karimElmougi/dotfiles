@@ -9,14 +9,14 @@ CARGO_BIN=$HOME/.cargo/bin
 HOME_BIN=$HOME/.bin
 export GOPATH=$HOME/dev/go
 export GOBIN=$GOPATH/bin
-export PATH="$HOME_BIN:$CARGO_BIN:$PATH"
+export PATH="$HOME_BIN:$CARGO_BIN:$GOBIN:$PATH"
 
 alias vim=nvim
 alias ls='exa --group-directories-first'
 alias cat=bat
 alias open=xdg-open
 
-export EDITOR=vim
+export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
 
 #neofetch
