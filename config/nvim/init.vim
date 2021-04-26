@@ -4,7 +4,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Always loaded plugins
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': '0.89.0'}
 let g:coc_global_extensions = ['coc-html', 'coc-json', 'coc-pairs', 'coc-snippets', 'coc-highlight']
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -93,9 +93,7 @@ set tabstop=2
 set expandtab
 set autoindent
 set smartindent
-" set relative line numbers and absolute
 set number
-set relativenumber
 
 " keybinds
 " use vim-move to move lines up or down using <S-J> and <S-K>
