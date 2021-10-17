@@ -1,3 +1,5 @@
+# Disable promptinit in the static rc
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -14,7 +16,6 @@ export PATH="$HOME_BIN:$CARGO_BIN:$GOBIN:$PATH"
 alias vim=nvim
 alias ls='exa --group-directories-first'
 alias cat=bat
-alias open=xdg-open
 
 export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
