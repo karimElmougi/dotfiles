@@ -4,8 +4,17 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Always loaded plugins
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'tag': '0.89.0'}
-let g:coc_global_extensions = ['coc-html', 'coc-json', 'coc-pairs', 'coc-snippets', 'coc-highlight']
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'windwp/nvim-autopairs'
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'akinsho/toggleterm.nvim'
+
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -28,9 +37,6 @@ Plug 'chriskempson/base16-vim'
 " Go
 Plug 'fatih/vim-go', { 'for': 'go' }
 
-" Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-
 " Elxir
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
 
@@ -46,6 +52,9 @@ Plug 'sbdchd/neoformat', {'for': ['sql', 'sh'] }
 
 "toml
 Plug 'cespare/vim-toml', {'for': ['toml']}
+
+"nix
+Plug 'LnL7/vim-nix', {'for': ['nix']}
 
 call plug#end()
 
@@ -85,7 +94,9 @@ set termguicolors
 " set theme
 colorscheme base16-gruvbox-dark-hard
 " syntax highlighting
-syntax on
+syntax enable
+" indentation
+filetype plugin indent on
 " Make backspace work
 set backspace=2
 set shiftwidth=2
@@ -115,31 +126,131 @@ nnoremap <A-l> <C-w>l
 let mapleader=","
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
+inoremap <expr> <c-space> "\<C-n>"
 
 " file search
 nnoremap <leader><leader> :Rg<Cr>
+
+lua require('nvim-autopairs').setup()
+
+" LSP
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+
+" Errors in Red
+hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
+" Warnings in Yellow
+hi LspDiagnosticsVirtualTextWarning guifg=Yellow ctermfg=Yellow
+" Info and Hints in White
+hi LspDiagnosticsVirtualTextInformation guifg=White ctermfg=White
+hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
+
+" Underline the offending code
+hi LspDiagnosticsUnderlineError guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineWarning guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineInformation guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineHint guifg=NONE ctermfg=NONE cterm=underline gui=underline
+
+" LSP
+lua <<EOF
+local nvim_lsp = require('lspconfig')
+local configs = require('lspconfig/configs')
+local util = require('lspconfig/util')
+
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+end
+
+-- Rust
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+nvim_lsp.rust_analyzer.setup({on_attach=on_attach, capabilities=capabilities})
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+  }
+)
+
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+
+-- Completion
+require('compe').setup({
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    vsnip = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    spell = true;
+    tags = true;
+    snippets_nvim = true;
+  };
+})
+
+require('nvim-treesitter.configs').setup({
+  highlight = {
+    enable = true
+  },
+  rainbow = {
+    enable = true
+  },
+  ensure_installed = "maintained"
+})
+
+require('toggleterm').setup({
+  -- size can be a number or function which is passed the current terminal
+  size = 20,
+  open_mapping = [[<c-\>]],
+  hide_numbers = true, -- hide the number column in toggleterm buffers
+  shade_filetypes = {},
+  shade_terminals = true,
+  -- shading_factor = '<number>', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+  start_in_insert = true,
+  insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  persist_size = true,
+  direction = 'horizontal', --| 'vertical' | 'window' | 'float',
+  close_on_exit = true, -- close the terminal window when the process exits
+  shell = vim.o.shell, -- change the default shell
+})
+EOF
+
+" Set updatetime for CursorHold
+" 300ms of no cursor movement to trigger CursorHold
+set updatetime=300
+augroup lsp
+    autocmd!
+    " Show diagnostic popup on cursor hold
+    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
+    " Enable type inlay hints
+    autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs
+    \ lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+augroup end
+
+" Highlight symbol under cursor on CursorHold
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
