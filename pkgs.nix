@@ -43,6 +43,7 @@
     oh-my-zsh
     zsh-fast-syntax-highlighting
     zsh-autosuggestions
+    tree-sitter
   ];
 
   # Use a custom configuration.nix location.
