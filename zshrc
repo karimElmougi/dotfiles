@@ -16,6 +16,12 @@ export PATH="$HOME_BIN:$CARGO_BIN:$GOBIN:$PATH"
 alias vim=nvim
 alias ls='exa --group-directories-first'
 alias cat=bat
+alias nixre="darwin-rebuild switch"
+alias nixgc="nix-collect-garbage -d"
+alias nixquery="nix-env -qaP"
+alias nixupgrade="nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert"
+alias nixupdate="nix-env -u"
+alias nixcfg="nvim ~/.nixpkgs/darwin-configuration.nix"
 
 export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
