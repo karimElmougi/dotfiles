@@ -14,6 +14,6 @@ fi
 
 ln -sf $DIR/gitconfig $HOME/.gitconfig
 
-rm $HOME/.zshrc
+rm $HOME/.zshrc || true
 ln -sf $DIR/zshrc $HOME/.zshrc
 
