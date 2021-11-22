@@ -2,6 +2,8 @@
 
 DIR=$(git rev-parse --show-toplevel)
 
+## Install oh-my-zsh, fast-syntax-highlighting and zsh-autosuggestions manually
+
 mkdir -p $HOME/.fonts && \
 for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf "$f" $HOME/.fonts; fi; done
 
