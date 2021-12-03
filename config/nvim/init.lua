@@ -49,6 +49,10 @@ require('packer').startup(function()
   use 'ray-x/lsp_signature.nvim'
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'ray-x/cmp-treesitter'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 end)
@@ -65,6 +69,7 @@ vim.o.hlsearch = true
 
 --Make line numbers default
 vim.wo.number = true
+vim.o.relativenumber = true
 
 --Do not save when switching buffers (note: this is now a default on master)
 vim.o.hidden = true
@@ -321,6 +326,10 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'path' },
+    { name = 'nvim_lua' },
+    { name = 'treesitter' },
   },
 }
 
