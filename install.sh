@@ -11,11 +11,17 @@ if !command -v cargo &> /dev/null then
 fi
 
 if [[ `uname` == "Darwin" ]] && !command -v pkgin; then
+  if !command -v pkgin; then
     echo "pkgin not installed!"
     exit 1
+  fi
+  if !command -v brew; then
+    echo "brew not installed!"
+    exit 1
+  fi
 fi
 
-DIR=$(git rev-parse --show-toplevel)
+DOTFILES=$(git rev-parse --show-toplevel)
 
 if [ -d $HOME/.oh-my-zsh ]; then
   echo "oh-my-zsh is already installed, skipping"
@@ -37,18 +43,19 @@ if [[ `uname` == "Darwin" ]]; then
     the_silver_searcher \
     zsh-syntax-highlighting \
     zsh-autosuggestions
+  brew bundle --file $DOTFILES/Brewfile
 fi
 
 mkdir -p $HOME/.bin
 
 mkdir -p $HOME/.fonts && \
-for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf "$f" $HOME/.fonts; fi; done
+for f in $DOTFILES/fonts/*; do if [[ -f $f ]]; then ln -sf "$f" $HOME/.fonts; fi; done
 
 mkdir -p $HOME/.config && \
-for f in $DIR/config/*; do ln -sf "$f" $HOME/.config; done
+for f in $DOTFILES/config/*; do ln -sf "$f" $HOME/.config; done
 
-ln -sf $DIR/gitconfig $HOME/.gitconfig
+ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
 
 rm $HOME/.zshrc || true
-ln -sf $DIR/zshrc $HOME/.zshrc
+ln -sf $DOTFILES/zshrc $HOME/.zshrc
 
