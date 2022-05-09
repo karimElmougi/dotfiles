@@ -56,6 +56,8 @@ for f in $DOTFILES/config/*; do ln -sf "$f" $HOME/.config; done
 
 ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
 
+ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
+
 rm $HOME/.zshrc || true
 ln -sf $DOTFILES/zshrc $HOME/.zshrc
 
