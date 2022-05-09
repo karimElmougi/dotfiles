@@ -27,7 +27,9 @@ require('packer').startup(function()
   use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
-  use 'RRethy/nvim-base16' -- Colorscheme pack
+  -- use 'RRethy/nvim-base16' -- Colorscheme pack
+  use 'ellisonleao/gruvbox.nvim'
+  use 'NvChad/nvim-base16.lua' -- Colorschem pack
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
 
   -- UI to select things (files, grep results, open buffers...)
@@ -46,6 +48,7 @@ require('packer').startup(function()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'nvim-lua/lsp_extensions.nvim' -- Extensions to the LSP (like inlay hints)
+  use 'simrat39/rust-tools.nvim' -- Rust-specific LSP integration
   use 'ray-x/lsp_signature.nvim'
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
@@ -106,7 +109,8 @@ vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.cmd [[colorscheme base16-onedark]]
+local base16 = require('base16')
+base16(base16.themes('onedark'), true)
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -138,12 +142,13 @@ vim.api.nvim_exec(
   [[
   augroup lsp
     autocmd!
-    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
-    autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+    autocmd CursorHold * lua vim.diagnostic.open_float({focusable = false})
   augroup end
   ]],
   false
 )
+
+-- autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 -- Y yank until the end of line  (note: this is now a default on master)
 vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true })
@@ -237,6 +242,9 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+-- Rust Tools
+require('rust-tools').setup({})
+
 -- LSP settings
 local nvim_lsp = require('lspconfig')
 local on_attach = function(_, bufnr)
@@ -256,7 +264,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -381,8 +389,12 @@ end
 local lsp = require 'feline.providers.lsp'
 local vi_mode_utils = require 'feline.providers.vi_mode'
 
-local lsp_get_diag = function(str)
-  local count = vim.lsp.diagnostic.get_count(0, str)
+local lsp_get_diag = function(sev)
+  local items = vim.diagnostic.get(0, { severity = sev })
+  local count = 0
+  for _ in pairs(items) do
+    count = count + 1
+  end
   return (count > 0) and ' '..count..' ' or ''
 end
 
@@ -495,10 +507,10 @@ local comps = {
         err = {
             -- provider = 'diagnostic_errors',
             provider = function()
-                return '' .. lsp_get_diag("Error")
+                return '' .. lsp_get_diag(vim.diagnostic.severity.ERROR)
             end,
             -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('Error') end,
+            enabled = function() return lsp.diagnostics_exist('ERROR') end,
             hl = {
                 fg = colors.red
             }
@@ -506,10 +518,10 @@ local comps = {
         warn = {
             -- provider = 'diagnostic_warnings',
             provider = function()
-                return '' ..  lsp_get_diag("Warning")
+                return '' ..  lsp_get_diag(vim.diagnostic.severity.WARN)
             end,
             -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('Warning') end,
+            enabled = function() return lsp.diagnostics_exist('WARN') end,
             hl = {
                 fg = colors.yellow
             }
@@ -517,10 +529,10 @@ local comps = {
         info = {
             -- provider = 'diagnostic_info',
             provider = function()
-                return '' .. lsp_get_diag("Information")
+                return '' .. lsp_get_diag(vim.diagnostic.severity.INFO)
             end,
             -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('Information') end,
+            enabled = function() return lsp.diagnostics_exist('INFO') end,
             hl = {
                 fg = colors.blue
             }
@@ -528,10 +540,10 @@ local comps = {
         hint = {
             -- provider = 'diagnostic_hints',
             provider = function()
-                return '' .. lsp_get_diag("Hint")
+                return '' .. lsp_get_diag(vim.diagnostic.severity.HINT)
             end,
             -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('Hint') end,
+            enabled = function() return lsp.diagnostics_exist('HINT') end,
             hl = {
                 fg = colors.cyan
             }
