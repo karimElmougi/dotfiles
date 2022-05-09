@@ -10,10 +10,6 @@ for f in $DIR/fonts/*; do if [[ -f $f ]]; then ln -sf "$f" $HOME/.fonts; fi; don
 mkdir -p $HOME/.config && \
 for f in $DIR/config/*; do ln -sf "$f" $HOME/.config; done
 
-if [[ "$OSTYPE" == "darwin*" ]]; then
-  ln -sf $DIR/pkgs.nix $HOME/.nixpkgs/darwin-configuration.nix
-fi
-
 ln -sf $DIR/gitconfig $HOME/.gitconfig
 
 rm $HOME/.zshrc || true
