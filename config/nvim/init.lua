@@ -27,9 +27,7 @@ require('packer').startup(function()
   use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
-  -- use 'RRethy/nvim-base16' -- Colorscheme pack
-  use 'ellisonleao/gruvbox.nvim'
-  use 'NvChad/nvim-base16.lua' -- Colorschem pack
+  use 'RRethy/nvim-base16' -- Colorscheme pack
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
 
   -- UI to select things (files, grep results, open buffers...)
@@ -109,8 +107,7 @@ vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-local base16 = require('base16')
-base16(base16.themes('onedark'), true)
+vim.cmd('colorscheme base16-onedark')
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -711,7 +708,6 @@ require('nvim-tree').setup {
   hijack_netrw        = true,
   open_on_setup       = false,
   ignore_ft_on_setup  = {},
-  auto_close          = false,
   open_on_tab         = false,
   hijack_cursor       = false,
   update_cwd          = false,
