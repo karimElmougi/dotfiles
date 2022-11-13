@@ -14,6 +14,7 @@ if [[ `uname` == "Darwin" ]]; then
 fi
 
 HOME_BIN=$HOME/.bin
+export PATH="$HOME_BIN:$PATH"
 
 if [ -d $HOME_BIN/zig ]; then
   ZIG_PATH=$HOME_BIN/zig
