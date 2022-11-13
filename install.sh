@@ -56,6 +56,8 @@ then
   brew bundle --file $DOTFILES/Brewfile
 fi
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 mkdir -p $HOME/.bin
 
 echo "Installing fonts..."
