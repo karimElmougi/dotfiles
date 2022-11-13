@@ -15,13 +15,16 @@ vim.api.nvim_exec(
   false
 )
 
+-- Disable deprecated commands from neo-tree
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
   use 'famiu/feline.nvim' -- Status line
   use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'} -- Tabs
   use 'famiu/bufdelete.nvim' -- Nicer buffer deleter commands, compliments the buffeline tabs
-  use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'terrortylor/nvim-comment' -- Comment visual regions/lines
   use 'windwp/nvim-autopairs' -- Automatically close brackets
   use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
@@ -270,8 +273,7 @@ local on_attach = function(_, bufnr)
 end
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Enable the following language servers
 local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
@@ -371,16 +373,14 @@ local vi_mode_colors = {
 }
 
 local function file_osinfo()
-    local os = vim.bo.fileformat:upper()
-    local icon
-    if os == 'UNIX' then
-        icon = ' '
-    elseif os == 'MAC' then
-        icon = ' '
+    local os = vim.loop.os_uname().sysname
+    if os == 'Linux' then
+        return ' LINUX'
+    elseif os == 'Darwin' then
+        return ' MAC'
     else
-        icon = ' '
+        return ' WINDOWS'
     end
-    return icon .. os
 end
 
 local lsp = require 'feline.providers.lsp'
@@ -702,50 +702,4 @@ vim.api.nvim_set_keymap('n', '∆', "<CMD>lua require('Navigator').down()<CR>", 
 vim.api.nvim_set_keymap('n', '˚', "<CMD>lua require('Navigator').up()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '¬', "<CMD>lua require('Navigator').right()<CR>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<C-n>', '<Cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
-require('nvim-tree').setup {
-  disable_netrw       = true,
-  hijack_netrw        = true,
-  open_on_setup       = false,
-  ignore_ft_on_setup  = {},
-  open_on_tab         = false,
-  hijack_cursor       = false,
-  update_cwd          = false,
-  update_to_buf_dir   = {
-    enable = true,
-    auto_open = true,
-  },
-  diagnostics = {
-    enable = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    }
-  },
-  update_focused_file = {
-    enable      = false,
-    update_cwd  = false,
-    ignore_list = {}
-  },
-  system_open = {
-    cmd  = nil,
-    args = {}
-  },
-  filters = {
-    dotfiles = false,
-    custom = {}
-  },
-  view = {
-    width = 30,
-    height = 30,
-    hide_root_folder = false,
-    side = 'left',
-    auto_resize = false,
-    mappings = {
-      custom_only = false,
-      list = {}
-    }
-  }
-}
+vim.api.nvim_set_keymap('n', '<C-n>', '<Cmd>Neotree toggle=true focus<CR>', { noremap = true, silent = true })
