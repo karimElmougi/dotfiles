@@ -25,21 +25,17 @@ then
     exit 1
   fi
 else
-  echo "Script not configured for OS, aborting"
-  exit 1
+  OS=`cat /etc/os-release | grep '^NAME' | sed 's/NAME="\(.*\)"/\1/'`
+  if [[ $OS == "Fedora Linux" ]];
+  then
+	echo "Detected Fedora..."
+  else
+    echo "Script not configured for , aborting"
+    exit 1
+  fi
 fi
 
 DOTFILES=$(git rev-parse --show-toplevel)
-
-if [ -d $HOME/.oh-my-zsh ]; 
-then
-  echo "oh-my-zsh is already installed, skipping"
-else
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
-
-export PATH="$HOME/.cargo/bin:$PATH"
-cargo install bat exa bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd
 
 if [[ `uname` == "Darwin" ]]; 
 then
@@ -54,6 +50,34 @@ then
     zsh-syntax-highlighting \
     zsh-autosuggestions
   brew bundle --file $DOTFILES/Brewfile
+fi
+
+if [[ `uname` == "Linux" ]]; 
+then
+  sudo dnf install \
+    git \
+    gh \
+    go \
+    gcc \
+    gcc-c++ \
+    clang \
+    cmake \
+    jq \
+    tmux \
+    the_silver_searcher \
+    zsh \
+    zsh-syntax-highlighting \
+    zsh-autosuggestions
+fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+cargo install bat exa bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd
+
+if [ -d $HOME/.oh-my-zsh ]; 
+then
+  echo "oh-my-zsh is already installed, skipping"
+else
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
