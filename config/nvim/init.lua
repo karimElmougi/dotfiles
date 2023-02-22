@@ -150,6 +150,14 @@ vim.api.nvim_exec(
 
 -- autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
+-- Check for file changes when focusing
+vim.api.nvim_exec(
+  [[
+    autocmd BufEnter,FocusGained * checktime
+  ]],
+  false
+)
+
 -- Y yank until the end of line  (note: this is now a default on master)
 vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true })
 
