@@ -302,6 +302,27 @@ local luasnip = require('luasnip')
 
 -- nvim-cmp setup
 local cmp = require('cmp')
+
+local next_cmp = function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
+end
+
+local previous_cmp = function (fallback)
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
+end
+
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -319,24 +340,10 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end,
+    ['<Tab>'] = next_cmp,
+    ['<Down>'] = next_cmp,
+    ['<S-Tab>'] = previous_cmp,
+    ['<Up>'] = previous_cmp,
   },
   sources = {
     { name = 'nvim_lsp' },
