@@ -1,25 +1,17 @@
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.cmd [[packadd packer.nvim]]
 end
-
-vim.api.nvim_exec(
-  [[
-  augroup Packer
-    autocmd!
-    autocmd BufWritePost init.lua PackerCompile
-  augroup end
-]],
-  false
-)
 
 -- Disable deprecated commands from neo-tree
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
-local use = require('packer').use
-require('packer').startup(function()
+require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
   use 'famiu/feline.nvim' -- Status line
   use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'} -- Tabs
@@ -59,10 +51,32 @@ require('packer').startup(function()
   use 'ray-x/cmp-treesitter'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
+  if is_bootstrap then
+      require('packer').sync()
+  end
 end)
 
---Incremental live completion (note: this is now a default on master)
-vim.o.inccommand = 'nosplit'
+-- When we are bootstrapping a configuration, it doesn't
+-- make sense to execute the rest of the init.lua.
+--
+-- You'll need to restart nvim, and then it will work.
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
+end
+
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})
 
 -- Split direction
 vim.o.splitbelow = true
@@ -74,9 +88,6 @@ vim.o.hlsearch = true
 --Make line numbers default
 vim.wo.number = true
 vim.o.relativenumber = true
-
---Do not save when switching buffers (note: this is now a default on master)
-vim.o.hidden = true
 
 --Enable mouse mode
 vim.o.mouse = 'a'
@@ -125,15 +136,14 @@ vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true,
 vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
 -- Highlight on yank
-vim.api.nvim_exec(
-  [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]],
-  false
-)
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
 
 -- Set updatetime for CursorHold
 -- 300ms of no cursor movement to trigger CursorHold
@@ -151,15 +161,12 @@ vim.api.nvim_exec(
 -- autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 -- Check for file changes when focusing
-vim.api.nvim_exec(
-  [[
-    autocmd BufEnter,FocusGained * checktime
-  ]],
-  false
-)
-
--- Y yank until the end of line  (note: this is now a default on master)
-vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true })
+-- vim.api.nvim_exec(
+--   [[
+--     autocmd BufEnter,FocusGained * checktime
+--   ]],
+--   false
+-- )
 
 --Map blankline
 vim.g.indent_blankline_char = '┊'
