@@ -23,6 +23,7 @@ require('packer').startup(function(use)
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
   use 'RRethy/nvim-base16' -- Colorscheme pack
+  use 'rebelot/kanagawa.nvim' -- Colorscheme
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
 
   -- UI to select things (files, grep results, open buffers...)
@@ -121,7 +122,7 @@ vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.cmd('colorscheme base16-onedark')
+vim.cmd('colorscheme kanagawa')
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
