@@ -27,7 +27,7 @@ if [ -d $HOME_BIN/neovim ]; then
 fi
 
 CARGO_BIN=$HOME/.cargo/bin
-export GOPATH=$HOME/dev/go
+export GOPATH=$HOME/src/go
 export GOBIN=$GOPATH/bin
 
 export PATH="$CARGO_BIN:$GOBIN:$PATH"
