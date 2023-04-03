@@ -39,5 +39,6 @@ alias cat=bat
 export EDITOR=nvim
 
 #neofetch
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
