@@ -7,30 +7,30 @@ export ZSH=$HOME/.oh-my-zsh
 plugins=(fast-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
+pathadd() { [[ ":$PATH:" != *":$1:"* ]] && PATH="$1:$PATH" }
+
 if [[ `uname` == "Darwin" ]]; then
-  PKGIN_BIN=/opt/pkg/bin
-  PKGIN_SBIN=/opt/pkg/sbin
-  export PATH="$PKGIN_BIN:$PKGIN_SBIN:$PATH"
+  pathadd /opt/pkg/bin
+  pathadd /opt/pkg/sbin
 fi
 
 HOME_BIN=$HOME/.bin
-export PATH="$HOME_BIN:$PATH"
+pathadd $HOME_BIN
 
 if [ -d $HOME_BIN/zig ]; then
-  ZIG_PATH=$HOME_BIN/zig
-  export PATH="$ZIG_PATH:$PATH"
+  pathadd $HOME_BIN/zig
 fi
 
 if [ -d $HOME_BIN/neovim ]; then
-  NEOVIM_PATH=$HOME_BIN/neovim/bin
-  export PATH="$NEOVIM_PATH:$PATH"
+  pathadd $HOME_BIN/neovim/bin
 fi
 
 CARGO_BIN=$HOME/.cargo/bin
 export GOPATH=$HOME/src/go
 export GOBIN=$GOPATH/bin
 
-export PATH="$CARGO_BIN:$GOBIN:$PATH"
+pathadd $CARGO_BIN
+pathadd $GOBIN
 
 alias vim=nvim
 alias ls='exa --group-directories-first'
