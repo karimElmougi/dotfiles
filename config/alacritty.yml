@@ -20,12 +20,11 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: FiraCode Nerd Font Mono
-    #family: Hack Nerd Font Mono
+    family: Hack Nerd Font Mono
     #family: Iosevka Nerd Font Mono
-    family: FuraCode Nerd Font Mono
     #family: DejaVuSansMono Nerd Font Mono
     #familiy: SauceCodePro Nerd Font Mono
-    style: Light
+    #style: Light
 
   bold:
     style: Medium
@@ -41,3 +40,5 @@ key_bindings:
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
   - { key: Left,     mods: Alt,     chars: "\x1bb"                       }
   - { key: Right,    mods: Alt,     chars: "\x1bf"                       }
+  - { key: N,        mods: Command, action: SpawnNewInstance }
+  - { key: Q,        mods: Command, action: Quit }
