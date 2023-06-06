@@ -85,8 +85,13 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 mkdir -p $HOME/.bin
 
 echo "Installing fonts..."
-mkdir -p $HOME/.fonts && \
-for f in $DOTFILES/fonts/*; do if [[ -f $f ]]; then ln -sf "$f" $HOME/.fonts; fi; done
+git clone --depth 1 git@github.com:ryanoasis/nerd-fonts
+cd nerd-fonts \
+  && ./install.sh Iosevka \
+  && ./install.sh Inconsolata \
+  && ./install.sh Hack \
+  && ./install.sh FiraCode \
+  && cd ..
 
 echo "Creating symbolic links to config files..."
 mkdir -p $HOME/.config && \
