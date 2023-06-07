@@ -672,6 +672,7 @@ require('feline').setup {
 
 require("bufferline").setup{
   options = {
+    buffer_close_icon = 'x', -- maybe remove this when you figure out what's going on with the fonts?
     indicator = { style = "underline" },
     diagnostics = "nvim_lsp",
     diagnostics_indicator = function(count, level, diagnostics_dict, context)
