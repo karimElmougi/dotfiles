@@ -13,35 +13,22 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
-  use 'famiu/feline.nvim' -- Status line
-  use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'} -- Tabs
+  use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons', tag = 'v4.1.0' } -- Tabs
   use 'famiu/bufdelete.nvim' -- Nicer buffer deleter commands, compliments the buffeline tabs
   use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'terrortylor/nvim-comment' -- Comment visual regions/lines
   use 'windwp/nvim-autopairs' -- Automatically close brackets
-  use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
   use 'RRethy/nvim-base16' -- Colorscheme pack
   use 'rebelot/kanagawa.nvim' -- Colorscheme
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
-
-  -- UI to select things (files, grep results, open buffers...)
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-
-  -- Add indentation guides even on blank lines
-  use 'lukas-reineke/indent-blankline.nvim'
-
-  -- Add git related info in the signs columns and popups
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-
-  -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter'
-
-  -- Additional textobjects for treesitter
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-  use 'nvim-lua/lsp_extensions.nvim' -- Extensions to the LSP (like inlay hints)
+  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
+  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
+  use { 'neovim/nvim-lspconfig', tag = 'v0.1.6' } -- Collection of configurations for built-in LSP client
   use 'simrat39/rust-tools.nvim' -- Rust-specific LSP integration
   use 'ray-x/lsp_signature.nvim'
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
@@ -52,6 +39,11 @@ require('packer').startup(function(use)
   use 'ray-x/cmp-treesitter'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
+  -- No longer maintained, needs replacing
+  use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
+  use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
+  use 'nvim-lua/lsp_extensions.nvim' -- Extensions to the LSP (like inlay hints)
 
   if is_bootstrap then
       require('packer').sync()
@@ -680,6 +672,12 @@ require('feline').setup {
 
 require("bufferline").setup{
   options = {
+    indicator = { style = "underline" },
+    diagnostics = "nvim_lsp",
+    diagnostics_indicator = function(count, level, diagnostics_dict, context)
+      local icon = level:match("error") and " " or " "
+      return " " .. icon .. count
+    end,
     offsets = {{
       filetype = "NvimTree",
       text = "Files",
