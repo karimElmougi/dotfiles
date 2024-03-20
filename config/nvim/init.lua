@@ -26,14 +26,14 @@ require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
   use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
   use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
-  -- use 'simrat39/rust-tools.nvim' -- Rust-specific LSP integration
-  -- use 'ray-x/lsp_signature.nvim'
   use { 'ms-jpq/coq_nvim', commit = 'a290446adad540d780e87d7fa8ef86bb2fdc2951' } -- Autocompletion plugin
 
   -- Style
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
-  use 'RRethy/nvim-base16' -- Colorscheme pack
-  use 'rebelot/kanagawa.nvim' -- Colorscheme
+  -- use 'RRethy/nvim-base16' -- Colorscheme pack
+  -- use 'rebelot/kanagawa.nvim' -- Colorscheme
+  -- use 'luisiacc/gruvbox-baby'
+  use 'ellisonleao/gruvbox.nvim'
 
   -- No longer maintained, needs replacing
   use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
@@ -110,7 +110,10 @@ vim.wo.signcolumn = 'yes'
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 -- vim.cmd('colorscheme kanagawa')
-vim.cmd('colorscheme base16-gruvbox-light-medium')
+-- vim.cmd('colorscheme base16-gruvbox-light-medium')
+-- vim.cmd('colorscheme gruvbox-baby')
+vim.o.background = "light" -- or "light" for light mode
+vim.cmd('colorscheme gruvbox')
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
