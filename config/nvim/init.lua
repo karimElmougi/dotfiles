@@ -18,7 +18,7 @@ require('packer').startup(function(use)
   use 'windwp/nvim-autopairs' -- Automatically close brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
-  use { 'nvim-telescope/telescope.nvim', tag = 'v0.1.2', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
   use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
 
@@ -165,7 +165,7 @@ require('gitsigns').setup {
   },
 }
 
--- Telescope
+-- -- Telescope
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -178,16 +178,11 @@ require('telescope').setup {
 }
 
 -- Telescope shortcuts
-vim.api.nvim_set_keymap('', '<C-f>', '<Nop>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-f>', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader><space>', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
-
--- Tags shortcuts, revisit one day?
--- vim.api.nvim_set_keymap('n', '<leader>sh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>st', [[<cmd>lua require('telescope.builtin').tags()<CR>]], { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
+local telescope = require('telescope.builtin')
+vim.keymap.set('', '<C-f>', function() end, { noremap = true, silent = true})
+vim.keymap.set('n', '<C-f>', telescope.current_buffer_fuzzy_find, { noremap = true, silent = true})
+vim.keymap.set('n', '<C-p>', telescope.find_files, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader><space>', telescope.live_grep, { noremap = true, silent = true })
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
