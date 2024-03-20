@@ -14,8 +14,8 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
   use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
-  use 'terrortylor/nvim-comment' -- Comment visual regions/lines
-  use 'windwp/nvim-autopairs' -- Automatically close brackets
+  use { 'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end } -- Comment visual regions/lines, mapped to gcc and gc by default
+  use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end } -- Automatically close brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
   use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
@@ -29,12 +29,12 @@ require('packer').startup(function(use)
   use { 'ms-jpq/coq_nvim', commit = 'a290446adad540d780e87d7fa8ef86bb2fdc2951' } -- Autocompletion plugin
 
   -- Style
-  use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
+  use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end } -- Show color blocks around color codes
   -- use 'RRethy/nvim-base16' -- Colorscheme pack
   -- use 'rebelot/kanagawa.nvim' -- Colorscheme
   -- use 'luisiacc/gruvbox-baby'
   use 'ellisonleao/gruvbox.nvim'
-  use 'folke/todo-comments.nvim'
+  use { 'folke/todo-comments.nvim', config = function() require('todo-comments').setup() end}
   use 'HiPhish/rainbow-delimiters.nvim'
 
   -- No longer maintained, needs replacing
@@ -233,9 +233,6 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
-
--- Rust Tools
--- require('rust-tools').setup({})
 
 -- LSP settings
 local nvim_lsp = require('lspconfig')
@@ -546,14 +543,6 @@ require('toggleterm').setup({
   close_on_exit = true, -- close the terminal window when the process exits
   shell = vim.o.shell, -- change the default shell
 })
-
-require('nvim_comment').setup() -- Mapped to gcc and gc by default
-
-require('nvim-autopairs').setup{}
-
-require('colorizer').setup()
-
-require('todo-comments').setup()
 
 require('Navigator').setup()
 -- Alt + hjkl splits navigation on Mac
