@@ -39,7 +39,6 @@ require('packer').startup(function(use)
 
   -- No longer maintained, needs replacing
   use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
-  use 'nvim-lua/lsp_extensions.nvim' -- Extensions to the LSP (like inlay hints)
 
   if is_bootstrap then
       require('packer').sync()
