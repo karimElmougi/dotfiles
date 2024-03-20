@@ -13,7 +13,7 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
-  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
+  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'terrortylor/nvim-comment' -- Comment visual regions/lines
   use 'windwp/nvim-autopairs' -- Automatically close brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
