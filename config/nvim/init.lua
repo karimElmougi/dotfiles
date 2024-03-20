@@ -13,14 +13,18 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
-  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
+
   use { 'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end } -- Comment visual regions/lines, mapped to gcc and gc by default
   use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end } -- Automatically close brackets
+  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
+
+  -- UI
+  use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
-  use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
-  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
+  use { 'freddiehaddad/feline.nvim', tag = 'v1.4.0' } -- Status line
 
   -- LSP & Completion
   use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
@@ -36,9 +40,6 @@ require('packer').startup(function(use)
   use 'ellisonleao/gruvbox.nvim'
   use { 'folke/todo-comments.nvim', config = function() require('todo-comments').setup() end}
   use 'HiPhish/rainbow-delimiters.nvim'
-
-  -- No longer maintained, needs replacing
-  use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
 
   if is_bootstrap then
       require('packer').sync()
