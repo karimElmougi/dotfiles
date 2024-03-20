@@ -13,32 +13,27 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
-  use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons', tag = 'v4.1.0' } -- Tabs
-  use 'famiu/bufdelete.nvim' -- Nicer buffer deleter commands, compliments the buffeline tabs
   use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'terrortylor/nvim-comment' -- Comment visual regions/lines
   use 'windwp/nvim-autopairs' -- Automatically close brackets
   use 'numToStr/Navigator.nvim' -- Splits navigation
+  use 'akinsho/toggleterm.nvim' -- Toggleable terminal
+  use { 'nvim-telescope/telescope.nvim', tag = 'v0.1.2', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
+
+  -- LSP & Completion
+  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
+  use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
+  -- use 'simrat39/rust-tools.nvim' -- Rust-specific LSP integration
+  -- use 'ray-x/lsp_signature.nvim'
+  use { 'ms-jpq/coq_nvim', commit = 'a290446adad540d780e87d7fa8ef86bb2fdc2951' } -- Autocompletion plugin
+
+  -- Style
   use 'norcalli/nvim-colorizer.lua' -- Show color blocks around color codes
   use 'RRethy/nvim-base16' -- Colorscheme pack
   use 'rebelot/kanagawa.nvim' -- Colorscheme
-  use 'akinsho/toggleterm.nvim' -- Toggleable terminal
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
-  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
-  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
-  use { 'neovim/nvim-lspconfig', tag = 'v0.1.6' } -- Collection of configurations for built-in LSP client
-  use 'simrat39/rust-tools.nvim' -- Rust-specific LSP integration
-  use 'ray-x/lsp_signature.nvim'
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'ray-x/cmp-treesitter'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   -- No longer maintained, needs replacing
   use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
@@ -114,7 +109,8 @@ vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.cmd('colorscheme kanagawa')
+-- vim.cmd('colorscheme kanagawa')
+vim.cmd('colorscheme base16-gruvbox-light-medium')
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -150,16 +146,6 @@ vim.api.nvim_exec(
   ]],
   false
 )
-
--- autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
-
--- Check for file changes when focusing
--- vim.api.nvim_exec(
---   [[
---     autocmd BufEnter,FocusGained * checktime
---   ]],
---   false
--- )
 
 --Map blankline
 vim.g.indent_blankline_char = '┊'
@@ -251,7 +237,7 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Rust Tools
-require('rust-tools').setup({})
+-- require('rust-tools').setup({})
 
 -- LSP settings
 local nvim_lsp = require('lspconfig')
@@ -280,80 +266,31 @@ local on_attach = function(_, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
 -- Enable the following language servers
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+nvim_lsp.rust_analyzer.setup {
+  on_attach = on_attach,
+  -- capabilities = capabilities,
+  settings = {
+    ["rust-analyzer"] = {
+      procMacro = {
+        enable = true
+      },
+      diagnostics = {
+            enable = true,
+            disabled = {"unresolved-proc-macro"},
+            experimental = {
+              enable = true
+            }
+      },
+    }
   }
-end
+}
 
-require("lsp_signature").setup()
+local coq = require("coq")
+nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities())
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
-
--- luasnip setup
-local luasnip = require('luasnip')
-
--- nvim-cmp setup
-local cmp = require('cmp')
-
-local next_cmp = function(fallback)
-  if cmp.visible() then
-    cmp.select_next_item()
-  elseif luasnip.expand_or_jumpable() then
-    luasnip.expand_or_jump()
-  else
-    fallback()
-  end
-end
-
-local previous_cmp = function (fallback)
-  if cmp.visible() then
-    cmp.select_prev_item()
-  elseif luasnip.jumpable(-1) then
-    luasnip.jump(-1)
-  else
-    fallback()
-  end
-end
-
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = {
-    -- ['<C-p>'] = cmp.mapping.select_prev_item(),
-    -- ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = next_cmp,
-    ['<Down>'] = next_cmp,
-    ['<S-Tab>'] = previous_cmp,
-    ['<Up>'] = previous_cmp,
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'path' },
-    { name = 'nvim_lua' },
-    { name = 'treesitter' },
-  },
-}
 
 -- feline config
 local colors = {
@@ -515,52 +452,6 @@ local comps = {
             style = 'bold'
         }
     },
-    diagnos = {
-        err = {
-            -- provider = 'diagnostic_errors',
-            provider = function()
-                return '' .. lsp_get_diag(vim.diagnostic.severity.ERROR)
-            end,
-            -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('ERROR') end,
-            hl = {
-                fg = colors.red
-            }
-        },
-        warn = {
-            -- provider = 'diagnostic_warnings',
-            provider = function()
-                return '' ..  lsp_get_diag(vim.diagnostic.severity.WARN)
-            end,
-            -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('WARN') end,
-            hl = {
-                fg = colors.yellow
-            }
-        },
-        info = {
-            -- provider = 'diagnostic_info',
-            provider = function()
-                return '' .. lsp_get_diag(vim.diagnostic.severity.INFO)
-            end,
-            -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('INFO') end,
-            hl = {
-                fg = colors.blue
-            }
-        },
-        hint = {
-            -- provider = 'diagnostic_hints',
-            provider = function()
-                return '' .. lsp_get_diag(vim.diagnostic.severity.HINT)
-            end,
-            -- left_sep = ' ',
-            enabled = function() return lsp.diagnostics_exist('HINT') end,
-            hl = {
-                fg = colors.cyan
-            }
-        },
-    },
     lsp = {
         name = {
             provider = 'lsp_client_names',
@@ -625,10 +516,10 @@ table.insert(components.active[1], comps.git.change)
 table.insert(components.active[1], comps.git.remove)
 table.insert(components.inactive[1], comps.vi_mode.left)
 table.insert(components.inactive[1], comps.file.info)
-table.insert(components.active[3], comps.diagnos.err)
-table.insert(components.active[3], comps.diagnos.warn)
-table.insert(components.active[3], comps.diagnos.hint)
-table.insert(components.active[3], comps.diagnos.info)
+-- table.insert(components.active[3], comps.diagnos.err)
+-- table.insert(components.active[3], comps.diagnos.warn)
+-- table.insert(components.active[3], comps.diagnos.hint)
+-- table.insert(components.active[3], comps.diagnos.info)
 table.insert(components.active[3], comps.lsp.name)
 table.insert(components.active[3], comps.file.os)
 table.insert(components.active[3], comps.file.position)
@@ -637,23 +528,6 @@ table.insert(components.active[3], comps.scroll_bar)
 table.insert(components.active[3], comps.vi_mode.right)
 
 
--- TreeSitter
--- local ts_utils = require("nvim-treesitter.ts_utils")
--- local ts_parsers = require("nvim-treesitter.parsers")
--- local ts_queries = require("nvim-treesitter.query")
---[[ table.insert(components.active[2], {
-  provider = function()
-    local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
-    return ("%d:%s [%d, %d] - [%d, %d]")
-      :format(node:symbol(), node:type(), node:range())
-  end,
-  enabled = function()
-    local ok, ts_parsers = pcall(require, "nvim-treesitter.parsers")
-    return ok and ts_parsers.has_parser()
-  end
-}) ]]
-
--- require'feline'.setup {}
 require('feline').setup {
     colors = { bg = colors.bg, fg = colors.fg },
     components = components,
@@ -668,30 +542,6 @@ require('feline').setup {
         buftypes = {'terminal'},
         bufnames = {}
     }
-}
-
-require("bufferline").setup{
-  options = {
-    buffer_close_icon = 'x', -- maybe remove this when you figure out what's going on with the fonts?
-    indicator = { style = "underline" },
-    diagnostics = "nvim_lsp",
-    diagnostics_indicator = function(count, level, diagnostics_dict, context)
-      local icon = level:match("error") and " " or " "
-      return " " .. icon .. count
-    end,
-    offsets = {{
-      filetype = "NvimTree",
-      text = "Files",
-      highlight = "Directory",
-      text_align = "left"
-    }},
-    close_command = function(bufnum)
-      require('bufdelete').bufdelete(bufnum, true)
-    end,
-    right_mouse_command = function(bufnum)
-      require('bufdelete').bufdelete(bufnum, true)
-    end
-  }
 }
 
 require('toggleterm').setup({
@@ -725,3 +575,5 @@ vim.api.nvim_set_keymap('n', '˚', "<CMD>lua require('Navigator').up()<CR>", { n
 vim.api.nvim_set_keymap('n', '¬', "<CMD>lua require('Navigator').right()<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<C-n>', '<Cmd>Neotree toggle=true focus<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd('VimEnter', { command = 'COQnow --shut-up' })
