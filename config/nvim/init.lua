@@ -34,6 +34,7 @@ require('packer').startup(function(use)
   -- use 'rebelot/kanagawa.nvim' -- Colorscheme
   -- use 'luisiacc/gruvbox-baby'
   use 'ellisonleao/gruvbox.nvim'
+  use 'folke/todo-comments.nvim'
 
   -- No longer maintained, needs replacing
   use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
@@ -563,6 +564,8 @@ require('nvim_comment').setup() -- Mapped to gcc and gc by default
 require('nvim-autopairs').setup{}
 
 require('colorizer').setup()
+
+require('todo-comments').setup()
 
 require('Navigator').setup()
 -- Alt + hjkl splits navigation on Mac
