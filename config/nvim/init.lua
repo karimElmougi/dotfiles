@@ -336,15 +336,6 @@ end
 local lsp = require 'feline.providers.lsp'
 local vi_mode_utils = require 'feline.providers.vi_mode'
 
-local lsp_get_diag = function(sev)
-  local items = vim.diagnostic.get(0, { severity = sev })
-  local count = 0
-  for _ in pairs(items) do
-    count = count + 1
-  end
-  return (count > 0) and ' '..count..' ' or ''
-end
-
 -- LuaFormatter off
 
 local comps = {
@@ -512,12 +503,10 @@ table.insert(components.active[1], comps.git.branch)
 table.insert(components.active[1], comps.git.add)
 table.insert(components.active[1], comps.git.change)
 table.insert(components.active[1], comps.git.remove)
+
 table.insert(components.inactive[1], comps.vi_mode.left)
 table.insert(components.inactive[1], comps.file.info)
--- table.insert(components.active[3], comps.diagnos.err)
--- table.insert(components.active[3], comps.diagnos.warn)
--- table.insert(components.active[3], comps.diagnos.hint)
--- table.insert(components.active[3], comps.diagnos.info)
+
 table.insert(components.active[3], comps.lsp.name)
 table.insert(components.active[3], comps.file.os)
 table.insert(components.active[3], comps.file.position)
