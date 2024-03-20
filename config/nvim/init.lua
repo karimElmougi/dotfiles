@@ -35,10 +35,10 @@ require('packer').startup(function(use)
   -- use 'luisiacc/gruvbox-baby'
   use 'ellisonleao/gruvbox.nvim'
   use 'folke/todo-comments.nvim'
+  use 'HiPhish/rainbow-delimiters.nvim'
 
   -- No longer maintained, needs replacing
   use { 'famiu/feline.nvim', tag = 'v1.1.3' } -- Status line
-  use 'p00f/nvim-ts-rainbow' -- Rainbow brackets
   use 'nvim-lua/lsp_extensions.nvim' -- Extensions to the LSP (like inlay hints)
 
   if is_bootstrap then
