@@ -28,6 +28,7 @@ require('packer').startup(function(use)
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
+  use {"shortcuts/no-neck-pain.nvim", tag = "*" }
 
   -- LSP & Completion
   use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
@@ -177,6 +178,10 @@ vim.g.indent_blankline_filetype_exclude = { 'help', 'packer' }
 vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
 vim.g.indent_blankline_char_highlight = 'LineNr'
 vim.g.indent_blankline_show_trailing_blankline_indent = false
+
+require("no-neck-pain").setup({
+  autocmds = { enableOnVimEnter = true }
+})
 
 -- Mini
 require('mini.completion').setup()
