@@ -11,20 +11,9 @@ scrolling:
 
 # Font configuration
 font:
-  # Normal (roman) font face
   normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux/BSD) monospace
-    #   - (Windows) Consolas
-    #family: FiraCode Nerd Font Mono
-    family: Hack Nerd Font Mono
-    #family: Iosevka Nerd Font Mono
-    #family: DejaVuSansMono Nerd Font Mono
-    #familiy: SauceCodePro Nerd Font Mono
-    #style: Light
+    family: MonaspiceNe Nerd Font Mono
+    style: Light
 
   bold:
     style: Medium
