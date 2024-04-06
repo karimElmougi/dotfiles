@@ -29,11 +29,13 @@ require('packer').startup(function(use)
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
   use {"shortcuts/no-neck-pain.nvim", tag = "*" }
+  use { "sitiom/nvim-numbertoggle" }
 
   -- LSP & Completion
   use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
   use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
   use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
+  use 'towolf/vim-helm'
 
   -- Style
   use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end } -- Show color blocks around color codes
@@ -179,9 +181,9 @@ vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
 vim.g.indent_blankline_char_highlight = 'LineNr'
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 
-require("no-neck-pain").setup({
-  autocmds = { enableOnVimEnter = true }
-})
+-- require("no-neck-pain").setup({
+--   autocmds = { enableOnVimEnter = true }
+-- })
 
 -- Mini
 require('mini.completion').setup()
@@ -319,6 +321,16 @@ nvim_lsp.rust_analyzer.setup {
 
 nvim_lsp.gopls.setup{
   on_attach = on_attach
+}
+
+nvim_lsp.helm_ls.setup {
+  settings = {
+    ['helm-ls'] = {
+      yamlls = {
+        enabled = false,
+      }
+    }
+  }
 }
 
 -- Set completeopt to have a better completion experience
