@@ -23,7 +23,7 @@ require('packer').startup(function(use)
   use {'ojroques/nvim-osc52'} -- Clipboard that works across SSH, same method as Zellij
 
   -- UI
-  use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
   use 'numToStr/Navigator.nvim' -- Splits navigation
   use 'akinsho/toggleterm.nvim' -- Toggleable terminal
