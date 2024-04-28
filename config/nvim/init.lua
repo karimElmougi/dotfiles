@@ -1,77 +1,3 @@
--- Install packer
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-local is_bootstrap = false
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  is_bootstrap = true
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-  vim.cmd [[packadd packer.nvim]]
-end
-
--- Disable deprecated commands from neo-tree
-vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- Package manager
-
-  use { 'echasnovski/mini.nvim', branch = 'stable' } -- Bunch of mini plugins
-
-  use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end } -- Automatically close brackets
-  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
-
-  -- Remove with nvim 0.10
-  use {'ojroques/nvim-osc52'} -- Clipboard that works across SSH, same method as Zellij
-
-  -- UI
-  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
-  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
-  use 'numToStr/Navigator.nvim' -- Splits navigation
-  use 'akinsho/toggleterm.nvim' -- Toggleable terminal
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
-  use {"shortcuts/no-neck-pain.nvim", tag = "*" }
-  use { "sitiom/nvim-numbertoggle" }
-
-  -- LSP & Completion
-  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
-  use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
-  use 'towolf/vim-helm'
-
-  -- Style
-  use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end } -- Show color blocks around color codes
-  -- use 'RRethy/nvim-base16' -- Colorscheme pack
-  -- use 'rebelot/kanagawa.nvim' -- Colorscheme
-  -- use 'luisiacc/gruvbox-baby'
-  use 'ellisonleao/gruvbox.nvim'
-  use { 'folke/todo-comments.nvim', config = function() require('todo-comments').setup() end}
-  use 'HiPhish/rainbow-delimiters.nvim'
-
-  if is_bootstrap then
-      require('packer').sync()
-  end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-  print '=================================='
-  print '    Plugins are being installed'
-  print '    Wait until Packer completes,'
-  print '       then restart nvim'
-  print '=================================='
-  return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | PackerCompile',
-  group = packer_group,
-  pattern = vim.fn.expand '$MYVIMRC',
-})
-
 -- Split direction
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -180,6 +106,86 @@ vim.g.indent_blankline_filetype_exclude = { 'help', 'packer' }
 vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
 vim.g.indent_blankline_char_highlight = 'LineNr'
 vim.g.indent_blankline_show_trailing_blankline_indent = false
+
+---------------------------------------------------
+--
+--              Plugin Config
+--
+---------------------------------------------------
+
+-- Install packer
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.cmd [[packadd packer.nvim]]
+end
+
+-- Disable deprecated commands from neo-tree
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
+require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim' -- Package manager
+
+  use { 'echasnovski/mini.nvim', branch = 'stable' } -- Bunch of mini plugins
+
+  use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end } -- Automatically close brackets
+  use { 'lukas-reineke/indent-blankline.nvim', tag = 'v2.20.6' } -- Add indentation guides even on blank lines
+
+  -- Remove with nvim 0.10
+  use {'ojroques/nvim-osc52'} -- Clipboard that works across SSH, same method as Zellij
+
+  -- UI
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } } -- UI to select things (files, grep results, open buffers...)
+  use { 'nvim-neo-tree/neo-tree.nvim', branch = 'v3.x', requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'} } 
+  use 'numToStr/Navigator.nvim' -- Splits navigation
+  use 'akinsho/toggleterm.nvim' -- Toggleable terminal
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
+  use {"shortcuts/no-neck-pain.nvim", tag = "*" }
+  use { "sitiom/nvim-numbertoggle" }
+
+  -- LSP & Completion
+  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
+  use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
+  use 'towolf/vim-helm'
+
+  -- Style
+  use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end } -- Show color blocks around color codes
+  -- use 'RRethy/nvim-base16' -- Colorscheme pack
+  -- use 'rebelot/kanagawa.nvim' -- Colorscheme
+  -- use 'luisiacc/gruvbox-baby'
+  use 'ellisonleao/gruvbox.nvim'
+  use { 'folke/todo-comments.nvim', config = function() require('todo-comments').setup() end}
+  use 'HiPhish/rainbow-delimiters.nvim'
+
+  if is_bootstrap then
+      require('packer').sync()
+  end
+end)
+
+-- When we are bootstrapping a configuration, it doesn't
+-- make sense to execute the rest of the init.lua.
+--
+-- You'll need to restart nvim, and then it will work.
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
+end
+
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})
 
 -- require("no-neck-pain").setup({
 --   autocmds = { enableOnVimEnter = true }
