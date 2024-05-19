@@ -33,7 +33,7 @@ pathadd $CARGO_BIN
 pathadd $GOBIN
 
 alias vim=nvim
-alias ls='exa --group-directories-first'
+alias ls='eza --group-directories-first'
 alias cat=bat
 
 export EDITOR=nvim

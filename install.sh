@@ -71,7 +71,7 @@ then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
-cargo install bat exa bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd zoxide
+cargo install bat eza bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd zoxide
 
 if [ -d $HOME/.oh-my-zsh ]; 
 then
