@@ -24,13 +24,16 @@ then
     echo "brew not installed!"
     exit 1
   fi
+elif [[ `uname` == "FreeBSD" ]];
+then
+	echo "Detected FreeBSD..."
 else
   OS=`cat /etc/os-release | grep '^NAME' | sed 's/NAME="\(.*\)"/\1/'`
   if [[ $OS == "Fedora Linux" ]];
   then
 	echo "Detected Fedora..."
   else
-    echo "Script not configured for , aborting"
+    echo "Script not configured for $OS, aborting"
     exit 1
   fi
 fi
@@ -73,6 +76,20 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 cargo install bat eza bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd zoxide
 
+if [[ `uname` == "FreeBSD" ]]; 
+then
+  sudo pkg install \
+    git \
+    gh \
+    go \
+    cmake \
+    jq \
+    tmux \
+    zsh \
+    zsh-syntax-highlighting \
+    zsh-autosuggestions
+fi
+
 if [ -d $HOME/.oh-my-zsh ]; 
 then
   echo "oh-my-zsh is already installed, skipping"
@@ -80,18 +97,14 @@ else
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ ! -d ~/.tmux/plugins/tpm/.git ]
+then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+else
+  echo "TPM already installed"
+fi
 
 mkdir -p $HOME/.bin
-
-echo "Installing fonts..."
-git clone --depth 1 git@github.com:ryanoasis/nerd-fonts
-cd nerd-fonts \
-  && ./install.sh Iosevka \
-  && ./install.sh Inconsolata \
-  && ./install.sh Hack \
-  && ./install.sh FiraCode \
-  && cd ..
 
 echo "Creating symbolic links to config files..."
 mkdir -p $HOME/.config && \
@@ -104,3 +117,11 @@ ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
 rm $HOME/.zshrc || true
 ln -sf $DOTFILES/zshrc $HOME/.zshrc
 
+echo "Installing fonts..."
+git clone --depth 1 https://github.com/ryanoasis/nerd-fonts
+cd nerd-fonts \
+  && ./install.sh Iosevka \
+  && ./install.sh Inconsolata \
+  && ./install.sh Hack \
+  && ./install.sh FiraCode \
+  && cd ..
