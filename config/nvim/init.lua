@@ -59,11 +59,7 @@ vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
--- vim.cmd('colorscheme kanagawa')
--- vim.cmd('colorscheme base16-gruvbox-light-medium')
--- vim.cmd('colorscheme gruvbox-baby')
 vim.o.background = "light" -- or "light" for light mode
-vim.cmd('colorscheme gruvbox')
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -186,6 +182,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   group = packer_group,
   pattern = vim.fn.expand '$MYVIMRC',
 })
+
+-- vim.cmd('colorscheme kanagawa')
+-- vim.cmd('colorscheme base16-gruvbox-light-medium')
+-- vim.cmd('colorscheme gruvbox-baby')
+vim.cmd('colorscheme gruvbox')
 
 -- require("no-neck-pain").setup({
 --   autocmds = { enableOnVimEnter = true }
