@@ -86,7 +86,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.o.background = "light" -- or "light" for light mode
 
 -- Remap for dealing with word wrap
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
@@ -198,16 +197,28 @@ require("lazy").setup({
 		{ "HiPhish/rainbow-delimiters.nvim", tag = "v0.7.0", dependencies = { "treesitter" } },
 
 		{
-			-- 'RRethy/nvim-base16' -- Colorscheme pack
-			-- 'rebelot/kanagawa.nvim' -- Colorscheme
-			-- 'luisiacc/gruvbox-baby'
 			"ellisonleao/gruvbox.nvim",
+			-- "scottmckendry/cyberdream.nvim",
+			priority = 100,
 			config = function()
+				require("gruvbox").setup({
+					contrast = "soft",
+				})
 				vim.cmd("colorscheme gruvbox")
+
+				-- require("cyberdream").setup({
+				-- 	transparent = false,
+				-- 	theme = {
+				-- 		variant = "auto",
+				-- 		colors = {
+				-- 			bg = "#fbf1c7",
+				-- 		},
+				-- 	},
+				-- })
+				-- vim.cmd("colorscheme cyberdream")
+
+				vim.o.background = "light"
 			end,
-			-- vim.cmd('colorscheme kanagawa')
-			-- vim.cmd('colorscheme base16-gruvbox-light-medium')
-			-- vim.cmd('colorscheme gruvbox-baby')
 		},
 
 		{ -- Bunch of mini plugins
@@ -282,15 +293,12 @@ require("lazy").setup({
 						return "make install_jsregexp"
 					end)(),
 					dependencies = {
-						-- `friendly-snippets` contains a variety of premade snippets.
-						--    See the README about individual language/framework/plugin snippets:
-						--    https://github.com/rafamadriz/friendly-snippets
-						-- {
-						--   'rafamadriz/friendly-snippets',
-						--   config = function()
-						--     require('luasnip.loaders.from_vscode').lazy_load()
-						--   end,
-						-- },
+						{ -- Variety of premade snippets
+							"rafamadriz/friendly-snippets",
+							config = function()
+								require("luasnip.loaders.from_vscode").lazy_load()
+							end,
+						},
 					},
 				},
 				"saadparwaiz1/cmp_luasnip",
@@ -315,17 +323,11 @@ require("lazy").setup({
 					},
 					completion = { completeopt = "menu,menuone,noinsert" },
 
-					-- For an understanding of why these mappings were
-					-- chosen, you will need to read `:help ins-completion`
-					--
-					-- No, but seriously. Please read `:help ins-completion`, it is really good!
 					mapping = cmp.mapping.preset.insert({
 						-- Scroll the documentation window [b]ack / [f]orward
 						["<C-b>"] = cmp.mapping.scroll_docs(-4),
 						["<C-f>"] = cmp.mapping.scroll_docs(4),
 
-						-- If you prefer more traditional completion keymaps,
-						-- you can uncomment the following lines
 						["<CR>"] = cmp.mapping.confirm({ select = true }),
 						["<Tab>"] = cmp.mapping.select_next_item(),
 						["<S-Tab>"] = cmp.mapping.select_prev_item(),
@@ -424,7 +426,6 @@ require("lazy").setup({
 				indent = { enable = true, disable = { "ruby" } },
 			},
 		},
-		-- 'towolf/vim-helm'
 
 		-- Lua
 		{ -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -802,21 +803,10 @@ require("lazy").setup({
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
-	-- install = { colorscheme = { "habamax" } },
+	install = { colorscheme = { "gruvbox" } },
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
-
--- Enable the following language servers
--- nvim_lsp.helm_ls.setup {
---   settings = {
---     ['helm-ls'] = {
---       yamlls = {
---         enabled = false,
---       }
---     }
---   }
--- }
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
