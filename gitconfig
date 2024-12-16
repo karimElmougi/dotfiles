@@ -11,3 +11,5 @@
 [user]
 	name = karim
 	email = karim.elmougi@gmail.com
+[delta]
+	dark = true
