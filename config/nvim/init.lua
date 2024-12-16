@@ -143,8 +143,8 @@ require('packer').startup(function(use)
   use { "sitiom/nvim-numbertoggle" }
 
   -- LSP & Completion
-  use 'nvim-treesitter/nvim-treesitter' -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
+  use { 'nvim-treesitter/nvim-treesitter', tag = 'v0.9.2' } -- Highlight, edit, and navigate code using a fast incremental parsing library
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter', requires = 'nvim-treesitter/nvim-treesitter' } -- Additional textobjects for treesitter
   use { 'neovim/nvim-lspconfig', tag = 'v0.1.7' } -- Collection of configurations for built-in LSP client
   use 'towolf/vim-helm'
 
