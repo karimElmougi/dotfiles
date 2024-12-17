@@ -139,6 +139,7 @@ require("lazy").setup({
 		}, -- Show color blocks around color codes
 		{
 			"shortcuts/no-neck-pain.nvim",
+			priority = 40,
 			tag = "v2.1.3",
 			opts = {
 				autocmds = { enableOnVimEnter = true },
@@ -194,7 +195,7 @@ require("lazy").setup({
 			dependencies = { "nvim-lua/plenary.nvim" },
 			opts = { signs = false },
 		},
-		{ "HiPhish/rainbow-delimiters.nvim", tag = "v0.7.0", dependencies = { "treesitter" } },
+		{ "HiPhish/rainbow-delimiters.nvim", priority = 40, tag = "v0.7.0", dependencies = { "treesitter" } },
 
 		{
 			"ellisonleao/gruvbox.nvim",
@@ -378,41 +379,41 @@ require("lazy").setup({
 			build = ":TSUpdate",
 			main = "nvim-treesitter.configs", -- Sets main module to use for opts
 			opts = {
-				ensure_installed = {
-					"bash",
-					"c",
-					"cmake",
-					"cpp",
-					"csv",
-					"cue",
-					"diff",
-					"dockerfile",
-					"gitignore",
-					"git_rebase",
-					"gitattributes",
-					"go",
-					"gomod",
-					"gosum",
-					"html",
-					"javascript",
-					"json",
-					"json5",
-					"lua",
-					"luadoc",
-					"make",
-					"markdown",
-					"markdown_inline",
-					"rust",
-					"sql",
-					"terraform",
-					"toml",
-					"typescript",
-					"query",
-					"vim",
-					"vimdoc",
-					"xml",
-					"yaml",
-				},
+				-- ensure_installed = {
+				-- 	"bash",
+				-- 	"c",
+				-- 	"cmake",
+				-- 	"cpp",
+				-- 	"csv",
+				-- 	"cue",
+				-- 	"diff",
+				-- 	"dockerfile",
+				-- 	"gitignore",
+				-- 	"git_rebase",
+				-- 	"gitattributes",
+				-- 	"go",
+				-- 	"gomod",
+				-- 	"gosum",
+				-- 	"html",
+				-- 	"javascript",
+				-- 	"json",
+				-- 	"json5",
+				-- 	"lua",
+				-- 	"luadoc",
+				-- 	"make",
+				-- 	"markdown",
+				-- 	"markdown_inline",
+				-- 	"rust",
+				-- 	"sql",
+				-- 	"terraform",
+				-- 	"toml",
+				-- 	"typescript",
+				-- 	"query",
+				-- 	"vim",
+				-- 	"vimdoc",
+				-- 	"xml",
+				-- 	"yaml",
+				-- },
 				-- Autoinstall languages that are not installed
 				-- auto_install = true,
 				-- sync_install = true,
@@ -582,9 +583,10 @@ require("lazy").setup({
 				--  - settings (table): Override the default settings passed when initializing the server.
 				--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 				local servers = {
-					-- clangd = {},
+					-- bashls = {},
 					gopls = {},
-					-- pyright = {},
+					gradle_ls = {},
+					helm_ls = {},
 					rust_analyzer = {
 						settings = {
 							procMacro = {
@@ -736,31 +738,7 @@ require("lazy").setup({
 				{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 			},
 			config = function()
-				-- Telescope is a fuzzy finder that comes with a lot of different things that
-				-- it can fuzzy find! It's more than just a "file finder", it can search
-				-- many different aspects of Neovim, your workspace, LSP, and more!
-				--
-				-- The easiest way to use Telescope, is to start by doing something like:
-				--  :Telescope help_tags
-				--
-				-- After running this command, a window will open up and you're able to
-				-- type in the prompt window. You'll see a list of `help_tags` options and
-				-- a corresponding preview of the help.
-				--
-				-- Two important keymaps to use while in Telescope are:
-				--  - Insert mode: <c-/>
-				--  - Normal mode: ?
-				--
-				-- This opens a window that shows you all of the keymaps for the current
-				-- Telescope picker. This is really useful to discover what Telescope can
-				-- do as well as how to actually do it!
-
-				-- [[ Configure Telescope ]]
-				-- See `:help telescope` and `:help telescope.setup()`
 				require("telescope").setup({
-					-- You can put your default mappings / updates / etc. in here
-					--  All the info you're looking for is in `:help telescope.setup()`
-					--
 					extensions = {
 						["ui-select"] = {
 							require("telescope.themes").get_dropdown(),
@@ -788,24 +766,9 @@ require("lazy").setup({
 				-- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 				-- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 				-- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-				-- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-
-				-- Slightly advanced example of overriding default behavior and theme
-				-- vim.keymap.set('n', '<leader>/', function()
-				--   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-				--   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-				--     winblend = 10,
-				--     previewer = false,
-				--   })
-				-- end, { desc = '[/] Fuzzily search in current buffer' })
 			end,
 		},
 	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
-	install = { colorscheme = { "gruvbox" } },
-	-- automatically check for plugin updates
-	checker = { enabled = true },
 })
 
 -- Set completeopt to have a better completion experience
