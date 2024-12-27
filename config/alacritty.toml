@@ -1,3 +1,4 @@
+[general]
 import = ["/Users/karim/.config/alacritty/themes/themes/breeze.yaml"]
 
 [colors]
