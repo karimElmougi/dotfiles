@@ -199,24 +199,12 @@ require("lazy").setup({
 
 		{
 			"ellisonleao/gruvbox.nvim",
-			-- "scottmckendry/cyberdream.nvim",
 			priority = 100,
 			config = function()
 				require("gruvbox").setup({
 					contrast = "soft",
 				})
 				vim.cmd("colorscheme gruvbox")
-
-				-- require("cyberdream").setup({
-				-- 	transparent = false,
-				-- 	theme = {
-				-- 		variant = "auto",
-				-- 		colors = {
-				-- 			bg = "#fbf1c7",
-				-- 		},
-				-- 	},
-				-- })
-				-- vim.cmd("colorscheme cyberdream")
 
 				vim.o.background = "light"
 			end,
