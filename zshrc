@@ -1,9 +1,10 @@
+zmodload zsh/zprof
 # Disable promptinit in the static rc
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source ~/.zsh/fast-syntax-highlighting/F-Sy-H.plugin.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 pathadd() { [[ ":$PATH:" != *":$1:"* ]] && PATH="$1:$PATH" }
@@ -38,4 +39,4 @@ alias cat=bat
 export EDITOR=nvim
 
 eval "$(starship init zsh)"
-
+zprof
