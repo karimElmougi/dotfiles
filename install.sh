@@ -1,10 +1,8 @@
 #! /usr/bin/env bash
 
-if ! command -v git &> /dev/null 
-then
-  echo "git not installed!"
-  exit 1
-fi
+DOTFILES=$(git rev-parse --show-toplevel)
+
+git submodule update --init --recursive --remote
 
 if ! command -v cargo &> /dev/null 
 then
@@ -37,8 +35,6 @@ else
     exit 1
   fi
 fi
-
-DOTFILES=$(git rev-parse --show-toplevel)
 
 if [[ `uname` == "Darwin" ]]; 
 then
@@ -74,7 +70,7 @@ then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
-cargo install bat eza bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd zoxide
+cargo install bat eza bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd
 
 if [[ `uname` == "FreeBSD" ]]; 
 then
@@ -88,13 +84,6 @@ then
     zsh \
     zsh-syntax-highlighting \
     zsh-autosuggestions
-fi
-
-if [ -d $HOME/.oh-my-zsh ]; 
-then
-  echo "oh-my-zsh is already installed, skipping"
-else
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 if [ ! -d ~/.tmux/plugins/tpm/.git ]
@@ -116,6 +105,7 @@ ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
 
 rm $HOME/.zshrc || true
 ln -sf $DOTFILES/zshrc $HOME/.zshrc
+ln -sf $DOTFILES/zsh $HOME/.zsh
 
 echo "Installing fonts..."
 git clone --depth 1 https://github.com/ryanoasis/nerd-fonts
