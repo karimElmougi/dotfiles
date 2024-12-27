@@ -41,13 +41,7 @@ then
   sudo pkgin install \
     git \
     gh \
-    go \
-    gopls \
-    jq \
-    tmux \
-    the_silver_searcher \
-    zsh-syntax-highlighting \
-    zsh-autosuggestions
+    jq
   brew bundle --file $DOTFILES/Brewfile
 fi
 
@@ -56,17 +50,8 @@ then
   sudo dnf install \
     git \
     gh \
-    go \
-    gcc \
-    gcc-c++ \
-    clang \
-    cmake \
     jq \
-    tmux \
-    the_silver_searcher \
-    zsh \
-    zsh-syntax-highlighting \
-    zsh-autosuggestions
+    zsh
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -77,13 +62,8 @@ then
   sudo pkg install \
     git \
     gh \
-    go \
-    cmake \
     jq \
-    tmux \
-    zsh \
-    zsh-syntax-highlighting \
-    zsh-autosuggestions
+    zsh
 fi
 
 if [ ! -d ~/.tmux/plugins/tpm/.git ]
