@@ -1,9 +1,9 @@
 [submodule "zsh/fast-syntax-highlighting"]
 	path = zsh/fast-syntax-highlighting
-	url = https://github.com/zdharma/fast-syntax-highlighting.git
+	url = https://github.com/zdharma/fast-syntax-highlighting
 [submodule "zsh/zsh-autosuggestions"]
 	path = zsh/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions.git
-[submodule "/Users/karim/dotfiles/config/alacritty/themes"]
-	path = /Users/karim/dotfiles/config/alacritty/themes
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "config/alacritty/themes"]
+	path = config/alacritty/themes
 	url = https://github.com/alacritty/alacritty-theme
