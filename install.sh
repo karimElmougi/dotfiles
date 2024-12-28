@@ -2,7 +2,7 @@
 
 DOTFILES=$(git rev-parse --show-toplevel)
 
-git submodule update --init --recursive --remote
+git submodule update --init --recursive
 
 if ! command -v cargo &> /dev/null 
 then
