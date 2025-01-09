@@ -66,13 +66,6 @@ then
     zsh
 fi
 
-if [ ! -d ~/.tmux/plugins/tpm/.git ]
-then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-else
-  echo "TPM already installed"
-fi
-
 mkdir -p $HOME/.bin
 
 echo "Creating symbolic links to config files..."
@@ -80,8 +73,6 @@ mkdir -p $HOME/.config && \
 for f in $DOTFILES/config/*; do ln -sf "$f" $HOME/.config; done
 
 ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
-
-ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
 
 rm $HOME/.zshrc || true
 ln -sf $DOTFILES/zshrc $HOME/.zshrc
