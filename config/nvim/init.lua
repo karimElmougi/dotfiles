@@ -215,8 +215,31 @@ require("lazy").setup({
 			branch = "stable",
 			config = function()
 				require("mini.comment").setup()
-				require("mini.notify").setup()
-				require("mini.statusline").setup({ use_icons = vim.g.have_nerd_font })
+				require("mini.statusline").setup({
+					use_icons = vim.g.have_nerd_font,
+					content = {
+						active = function()
+							local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+							local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+							local location = MiniStatusline.section_location({ trunc_width = 75 })
+							local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+							return MiniStatusline.combine_groups({
+								{ hl = mode_hl, strings = { mode } },
+								{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+								"%<", -- Mark general truncate point
+								{ hl = "MiniStatuslineFilename", strings = { "%f%m%r" } },
+								"%=", -- End left alignment
+								{ hl = mode_hl, strings = { search, location } },
+							})
+						end,
+						inactive = function()
+							return MiniStatusline.combine_groups({
+								{ hl = "MiniStatuslineFilename", strings = { "%f%m%r" } },
+							})
+						end,
+					},
+				})
 			end,
 		},
 
@@ -432,6 +455,7 @@ require("lazy").setup({
 
 		{ -- Main LSP Configuration
 			"neovim/nvim-lspconfig",
+			priority = 10,
 			dependencies = {
 				-- Automatically install LSPs and related tools to stdpath for Neovim
 				{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
@@ -579,6 +603,11 @@ require("lazy").setup({
 						settings = {
 							procMacro = {
 								enable = true,
+							},
+							imports = {
+								granularity = {
+									group = "module",
+								},
 							},
 							diagnostics = {
 								enable = true,
