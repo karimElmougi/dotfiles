@@ -1,0 +1,22 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+[user]
+name = "karim"
+email = "karim.elmougi@gmail.com"
+
+[git]
+push-new-bookmarks = true
+
+[ui]
+diff-editor = ":builtin"
+# conflict-marker-style = "snapshot"
+pager = "delta"
+diff-formatter = ":git"
+
+[colors]
+bookmark = { fg = "bright green", bold = true }
+bookmarks = { fg = "bright green", bold = true }
+
+[templates]
+git_push_bookmark = '"scratch/karim/" ++ change_id.short()'
+log = 'builtin_log_comfortable'
