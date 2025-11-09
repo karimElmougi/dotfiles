@@ -2,4 +2,4 @@
 
 echo "Installing cargo packages"
 export PATH="$HOME/.cargo/bin:$PATH"
-cargo install bat eza bottom du-dust fd-find ripgrep starship git-delta tealdeer tokei sd xh
+cargo install atuin bat eza bottom du-dust fd-find ripgrep git-delta tealdeer tokei sd xh starship
