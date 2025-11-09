@@ -6,6 +6,8 @@ if [[ `uname` != "Darwin" ]]; then
     exit 1
 fi
 
+[ -d ~/Library/Fonts/Monaspace ] && { echo "Fonts already installed, exiting."; exit 0; }
+
 set -x
 
 cd ~/Library/Fonts

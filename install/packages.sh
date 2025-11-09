@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-DOTFILES=$(git rev-parse --show-toplevel)
-
 if [[ `uname` == "Darwin" ]]; then
     INSTALL="sudo pkgin install -y"
 elif [[ `uname` == "FreeBSD" ]]; then
