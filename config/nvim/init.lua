@@ -94,13 +94,13 @@ vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true,
 -- Set updatetime for CursorHold
 -- 300ms of no cursor movement to trigger CursorHold
 vim.o.updatetime = 300
-vim.api.nvim_create_autocmd("CursorHold", {
-	desc = "Open floating diagnostic window on CursorHold",
-	group = vim.api.nvim_create_augroup("cursor-lsp-diag", {}),
-	callback = function()
-		vim.diagnostic.open_float({ focusable = false })
-	end,
-})
+-- vim.api.nvim_create_autocmd("CursorHold", {
+-- 	desc = "Open floating diagnostic window on CursorHold",
+-- 	group = vim.api.nvim_create_augroup("cursor-lsp-diag", {}),
+-- 	callback = function()
+-- 		vim.diagnostic.open_float({ focusable = false })
+-- 	end,
+-- })
 
 ---------------------------------------------------
 --
