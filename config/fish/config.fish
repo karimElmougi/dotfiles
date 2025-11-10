@@ -5,7 +5,7 @@ if status is-interactive
 
     set -gx EDITOR nvim
 
-    eval (/opt/homebrew/bin/brew shellenv fish)
+    test -e /opt/homebrew/bin/brew && eval (/opt/homebrew/bin/brew shellenv fish)
 
     atuin init fish | source
     starship init fish | source
