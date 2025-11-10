@@ -4,7 +4,7 @@
 if [[ `uname` == "Darwin" ]]; then
     PKGSRC=https://pkgsrc.smartos.org/packages/Darwin
     LATEST_VERSION=$(curl -fsSL $PKGSRC | sed -En 's/.*href="([0-9]+\.[0-9]+)\/".*/\1/p' | tail -n 1)
-    if command -v pkgin; then
+    if command -v pkgin >/dev/null 2>&1; then
         CURRENT_VERSION=$(cat /opt/pkg/etc/pkgin/repositories.conf | tail -n 1 | awk -F / '{print $6}')
 
         if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
