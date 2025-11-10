@@ -23,18 +23,18 @@ BREW=()
 CARGO=()
 
 if [[ `uname` == "Darwin" ]]; then
-    BREW+=(atuin bottom)
+    BREW+=(atuin bottom jj)
     PKGS+=(eza bat dust fd-find ripgrep git-delta tealdeer tokei sd xh starship)
     sudo ln -sf /opt/pkg/bin/{fdfind,fd}
 elif [[ `uname` == "FreeBSD" ]]; then
-    PKGS+=(zsh atuin bat eza bottom dust fd-find ripgrep git-delta tealdeer tokei sd xh starship)
+    PKGS+=(zsh atuin bat eza bottom dust fd-find jujutsu ripgrep git-delta tealdeer tokei sd xh starship)
 else
     OS=`cat /etc/os-release | grep '^NAME' | sed 's/NAME="\(.*\)"/\1/'`
     if [[ $OS == "Debian GNU/Linux" ]]; then
         sudo ln -sf /opt/pkg/bin/{fdfind,fd}
         sudo ln -sf /opt/pkg/bin/{batcat,bat}
         PKGS+=(zsh atuin bat eza du-dust fd-find ripgrep git-delta tealdeer tokei sd xh)
-        CARGO+=(bottom starship)
+        CARGO+=(bottom starship jj)
     else
         echo "Script not configured for $OS, aborting"
         exit 1
