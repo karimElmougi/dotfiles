@@ -45,8 +45,6 @@ disabled = true
 disabled = true
 [fennel]
 disabled = true
-[fortran]
-disabled = true
 [fossil_branch]
 disabled = true
 [fossil_metrics]
@@ -55,9 +53,9 @@ disabled = true
 disabled = true
 [gleam]
 disabled = true
-[go]
+[golang]
 disabled = true
-[guix]
+[guix_shell]
 disabled = true
 [gradle]
 disabled = true
@@ -79,15 +77,13 @@ disabled = true
 disabled = true
 [hg_branch]
 disabled = true
-[hg_state]
-disabled = true
 [mise]
 disabled = true
 [mojo]
 disabled = true
 [nim]
 disabled = true
-[node]
+[nodejs]
 disabled = true
 [ocaml]
 disabled = true
@@ -144,8 +140,6 @@ disabled = true
 [vlang]
 disabled = true
 [vcsh]
-disabled = true
-[xmake]
 disabled = true
 [zig]
 disabled = true
