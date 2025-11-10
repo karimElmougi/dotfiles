@@ -1,25 +1,52 @@
 #! /usr/bin/env bash
 
 
-if [[ `uname` == "Darwin" ]] && ! command -v pkgin; then
-    echo "Installing pkgin"
-    BOOTSTRAP_TAR="bootstrap-macos12.3-trunk-arm64-20240426.tar.gz"
-    BOOTSTRAP_SHA="97cbb189458ff2765dbacbbaa691460a1d658e7c"
+if [[ `uname` == "Darwin" ]]; then
+    PKGSRC=https://pkgsrc.smartos.org/packages/Darwin
+    LATEST_VERSION=$(curl -fsSL $PKGSRC | sed -En 's/.*href="([0-9]+\.[0-9]+)\/".*/\1/p' | tail -n 1)
+    if command -v pkgin; then
+        CURRENT_VERSION=$(cat /opt/pkg/etc/pkgin/repositories.conf | tail -n 1 | awk -F / '{print $6}')
 
-    # Download the bootstrap kit to the current directory.
-    curl -O https://pkgsrc.smartos.org/packages/Darwin/bootstrap/${BOOTSTRAP_TAR}
+        if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+            exit 0
+        fi
 
-    # Verify the SHA1 checksum.
-    echo "${BOOTSTRAP_SHA}  ${BOOTSTRAP_TAR}" | shasum -c-
+        echo Updating pkgin
+        UPGRADE_TAR=$(curl -fsSL $PKGSRC/bootstrap-upgrade | grep -Eo "bootstrap-macos$LATEST_VERSION-trunk-arm64-[0-9]+-upgrade\.tar\.gz" | tail -n 1)
 
-    # Verify PGP signature.  This step is optional, and requires gpg.
-    # curl -O https://pkgsrc.smartos.org/packages/Darwin/bootstrap/${BOOTSTRAP_TAR}.asc
-    # curl -sS https://pkgsrc.smartos.org/pgp/ED09C4B0.asc | gpg2 --import
-    # gpg2 --verify ${BOOTSTRAP_TAR}{.asc,}
+        echo Selected version $UPGRADE_TAR
 
-    # Install bootstrap kit to /opt/pkg
-    sudo tar -zxpf ${BOOTSTRAP_TAR} -C /
+        # Download the upgrade kit to the current directory.
+        curl -O $PKGSRC/bootstrap-upgrade/${UPGRADE_TAR}
 
-    # Reload PATH/MANPATH (pkgsrc installs /etc/paths.d/10-pkgsrc for new sessions)
-    eval $(/usr/libexec/path_helper)
+        # Unpack upgrade kit to /opt/pkg
+        sudo tar -zxpf ${UPGRADE_TAR} -C /
+
+        # Ensure you are running the latest package tools.
+        sudo pkg_add -U pkg_install pkgin
+
+        # Clean out any old packages signed with the previous key.
+        sudo pkgin clean
+
+        # Upgrade all packages.
+        sudo pkgin -y upgrade
+
+        rm $UPGRADE_TAR
+    else
+        echo Installing pkgin
+        BOOTSTRAP_TAR=$(curl -fsSL $PKGSRC/bootstrap | grep -Eo "bootstrap-macos$LATEST_VERSION-trunk-arm64-[0-9]+\.tar\.gz" | tail -n 1)
+
+        echo Selected version $BOOTSTRAP_TAR
+
+        # Download the bootstrap kit to the current directory.
+        curl -O $PKG_URL/${BOOTSTRAP_TAR}
+
+        # Install bootstrap kit to /opt/pkg
+        sudo tar -zxpf ${BOOTSTRAP_TAR} -C /
+
+        # Reload PATH/MANPATH (pkgsrc installs /etc/paths.d/10-pkgsrc for new sessions)
+        eval $(/usr/libexec/path_helper)
+
+        rm $BOOTSTRAP_TAR
+    fi
 fi
