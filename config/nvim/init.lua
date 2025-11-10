@@ -198,17 +198,25 @@ require("lazy").setup({
 		{ "HiPhish/rainbow-delimiters.nvim", priority = 40, tag = "v0.7.0", dependencies = { "treesitter" } },
 
 		{
-			"ellisonleao/gruvbox.nvim",
+			"Shatur/neovim-ayu",
 			priority = 100,
 			config = function()
-				require("gruvbox").setup({
-					contrast = "soft",
-				})
-				vim.cmd("colorscheme gruvbox")
-
-				vim.o.background = "light"
+				vim.o.background = "dark"
+				vim.cmd("colorscheme ayu")
 			end,
 		},
+		-- {
+		-- 	"ellisonleao/gruvbox.nvim",
+		-- 	priority = 100,
+		-- 	config = function()
+		-- 		require("gruvbox").setup({
+		-- 			contrast = "soft",
+		-- 		})
+		-- 		vim.cmd("colorscheme gruvbox")
+		--
+		-- 		vim.o.background = "light"
+		-- 	end,
+		-- },
 
 		{ -- Bunch of mini plugins
 			"echasnovski/mini.nvim",
