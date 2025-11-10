@@ -498,7 +498,9 @@ require("lazy").setup({
 						map("gd", telescope.lsp_definitions, "[G]oto [D]efinition")
 
 						-- Find references for the word under your cursor.
-						map("gr", telescope.lsp_references, "[G]oto [R]eferences")
+						map("gr", function()
+							telescope.lsp_references({ fname_width = 60 })
+						end, "[G]oto [R]eferences")
 
 						-- Jump to the implementation of the word under your cursor.
 						--  Useful when your language has ways of declaring types without an actual implementation.
@@ -798,3 +800,5 @@ require("lazy").setup({
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
+
+vim.api.nvim_set_hl(0, "LineNr", { fg = "grey" })
