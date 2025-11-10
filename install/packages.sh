@@ -3,7 +3,7 @@
 if [[ `uname` == "Darwin" ]]; then
     sudo pkgin update && sudo pkgin -y upgrade
     brew update && brew upgrade
-    INSTALL="sudo pkgin install -y"
+    INSTALL="sudo pkgin -y install"
 elif [[ `uname` == "FreeBSD" ]]; then
     sudo pkg update && sudo pkg upgrade -y
     INSTALL="sudo pkg install -y"
@@ -23,8 +23,8 @@ BREW=()
 CARGO=()
 
 if [[ `uname` == "Darwin" ]]; then
-    BREW+=(atuin bottom jj)
-    PKGS+=(eza bat dust fd-find ripgrep git-delta tealdeer tokei sd xh starship)
+    BREW+=(atuin bottom)
+    PKGS+=(eza bat dust fd-find jj ripgrep git-delta tealdeer tokei sd xh starship)
     sudo ln -sf /opt/pkg/bin/{fdfind,fd}
 elif [[ `uname` == "FreeBSD" ]]; then
     PKGS+=(zsh atuin bat eza bottom dust fd-find jujutsu ripgrep git-delta tealdeer tokei sd xh starship)
