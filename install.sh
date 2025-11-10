@@ -10,11 +10,9 @@ if [[ `uname` == "Darwin" ]]; then
   /opt/homebrew/bin/brew bundle --file $DOTFILES/Brewfile
 fi
 
-$DOTFILES/install/packages.sh
-
 $DOTFILES/install/rust.sh
 
-$DOTFILES/install/cargo.sh
+$DOTFILES/install/packages.sh
 
 mkdir -p $HOME/.bin
 mkdir -p $HOME/src
