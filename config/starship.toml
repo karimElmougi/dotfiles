@@ -1,3 +1,31 @@
+# Whitelist of enabled modules
+format = """
+$username\
+$hostname\
+$localip\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$memory_usage\
+$direnv\
+$env_var\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$os\
+$container\
+$netns\
+$shell\
+$character"""
+
 # Don't print a new line at the start of the prompt
 add_newline = false
 
@@ -7,139 +35,3 @@ disabled = true
 # Replace the "❯" symbol in the prompt with "➜"
 [character]                            # The name of the module we are configuring is "character"
 success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
-
-# Disable a bunch of modules, hiding them from the prompt completely
-[aws]
-disabled = true
-[azure]
-disabled = true
-[buf]
-disabled = true
-[bun]
-disabled = true
-[c]
-disabled = true
-[cpp]
-disabled = true
-[cmake]
-disabled = true
-[cobol]
-disabled = true
-[conda]
-disabled = true
-[crystal]
-disabled = true
-[daml]
-disabled = true
-[dart]
-disabled = true
-[deno]
-disabled = true
-[dotnet]
-disabled = true
-[elixir]
-disabled = true
-[elm]
-disabled = true
-[erlang]
-disabled = true
-[fennel]
-disabled = true
-[fossil_branch]
-disabled = true
-[fossil_metrics]
-disabled = true
-[gcloud]
-disabled = true
-[gleam]
-disabled = true
-[golang]
-disabled = true
-[guix_shell]
-disabled = true
-[gradle]
-disabled = true
-[haskell]
-disabled = true
-[haxe]
-disabled = true
-[helm]
-disabled = true
-[java]
-disabled = true
-[julia]
-disabled = true
-[kotlin]
-disabled = true
-[lua]
-disabled = true
-[meson]
-disabled = true
-[hg_branch]
-disabled = true
-[mise]
-disabled = true
-[mojo]
-disabled = true
-[nim]
-disabled = true
-[nodejs]
-disabled = true
-[ocaml]
-disabled = true
-[odin]
-disabled = true
-[opa]
-disabled = true
-[openstack]
-disabled = true
-[package]
-disabled = true
-[perl]
-disabled = true
-[php]
-disabled = true
-[pijul_channel]
-disabled = true
-[pixi]
-disabled = true
-[pulumi]
-disabled = true
-[purescript]
-disabled = true
-[python]
-disabled = true
-[quarto]
-disabled = true
-[rlang]
-disabled = true
-[raku]
-disabled = true
-[red]
-disabled = true
-[ruby]
-disabled = true
-[rust]
-disabled = true
-[scala]
-disabled = true
-[singularity]
-disabled = true
-[solidity]
-disabled = true
-[spack]
-disabled = true
-[swift]
-disabled = true
-[terraform]
-disabled = true
-[typst]
-disabled = true
-[vagrant]
-disabled = true
-[vlang]
-disabled = true
-[vcsh]
-disabled = true
-[zig]
-disabled = true
