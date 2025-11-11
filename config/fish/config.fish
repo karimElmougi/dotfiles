@@ -5,6 +5,12 @@ if status is-interactive
 
     set -gx EDITOR nvim
 
+    fish_add_path -g ~/.bin
+    fish_add_path -g ~/.bin/neovim/bin
+    fish_add_path -g ~/.cargo/bin
+    fish_add_path -g ~/opt/pkg/bin
+    fish_add_path -g ~/opt/pkg/sbin
+
     test -e /opt/homebrew/bin/brew && eval (/opt/homebrew/bin/brew shellenv fish)
 
     atuin init fish | source
