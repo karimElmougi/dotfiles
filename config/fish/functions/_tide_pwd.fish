@@ -7,7 +7,7 @@ set -l home_icon $tide_pwd_icon_home' '
 set -l pwd_icon $tide_pwd_icon' '
 
 eval "function _tide_pwd
-    if set -l split_pwd (string replace -r '^$HOME' '~' -- \$PWD | string split /)
+    if set -l split_pwd (string replace -r '^(/usr)?$HOME' '~' -- \$PWD | string split /)
         test -w . && set -f split_output \"$pwd_icon\$split_pwd[1]\" \$split_pwd[2..] ||
             set -f split_output \"$unwritable_icon\$split_pwd[1]\" \$split_pwd[2..]
         set split_output[-1] \"$color_anchors\$split_output[-1]$reset_to_color_dirs\"
