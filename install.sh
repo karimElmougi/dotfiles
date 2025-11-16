@@ -23,8 +23,4 @@ for f in $DOTFILES/config/*; do ln -sf "$f" $HOME/.config; done
 
 ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
 
-rm $HOME/.zshrc || true
-ln -sf $DOTFILES/zshrc $HOME/.zshrc
-ln -sf $DOTFILES/zsh $HOME/.zsh
-
 $DOTFILES/install/fonts.sh
