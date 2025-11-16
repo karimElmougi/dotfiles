@@ -14,5 +14,4 @@ if status is-interactive
     test -e /opt/homebrew/bin/brew && eval (/opt/homebrew/bin/brew shellenv fish)
 
     atuin init fish --disable-up-arrow | source
-    starship init fish | source
 end
