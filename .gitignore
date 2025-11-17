@@ -1,2 +1,8 @@
 Brewfile.lock.json
 config/fish/fish_variables
+config/fish/functions/fish_prompt.fish
+config/fish/functions/fish_mode_prompt.fish
+config/fish/functions/_tide_*
+config/fish/functions/tide*
+config/fish/conf.d/_tide_init.fish
+config/fish/completions/tide.fish
