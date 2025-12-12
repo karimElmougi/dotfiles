@@ -12,29 +12,34 @@ else
     if [[ $OS == "Debian GNU/Linux" ]]; then
         sudo apt update && sudo apt upgrade -y
         INSTALL="sudo apt install -y"
+    elif [[ $OS == "Void" ]]; then
+	sudo xbps-install -Syu
+        INSTALL="sudo xbps-install -y"
     else
         echo "Script not configured for $OS, aborting"
         exit 1
     fi
 fi
 
-PKGS=(git gh jq)
+PKGS=(git jq)
 BREW=()
 CARGO=()
 
 if [[ `uname` == "Darwin" ]]; then
     BREW+=(atuin bottom)
-    PKGS+=(eza bat dust fd-find jj ripgrep git-delta tealdeer tokei sd xh)
+    PKGS+=(gh eza bat dust fd-find jj ripgrep git-delta tealdeer tokei sd xh)
     sudo ln -sf /opt/pkg/bin/{fdfind,fd}
 elif [[ `uname` == "FreeBSD" ]]; then
-    PKGS+=(zsh atuin bat eza bottom dust fd-find jujutsu ripgrep git-delta tealdeer tokei sd xh)
+    PKGS+=(gh zsh atuin bat eza bottom dust fd-find jujutsu ripgrep git-delta tealdeer tokei sd xh)
 else
     OS=`cat /etc/os-release | grep '^NAME' | sed 's/NAME="\(.*\)"/\1/'`
     if [[ $OS == "Debian GNU/Linux" ]]; then
         sudo ln -sf /opt/pkg/bin/{fdfind,fd}
         sudo ln -sf /opt/pkg/bin/{batcat,bat}
-        PKGS+=(zsh atuin bat eza du-dust fd-find ripgrep git-delta tealdeer tokei sd xh)
+        PKGS+=(gh zsh atuin bat eza du-dust fd-find ripgrep git-delta tealdeer tokei sd xh)
         CARGO+=(bottom jj)
+    elif [[ $OS == "Void" ]]; then
+	PKGS+=(github-cli fd bat atuin eza dust ripgrep delta tealdeer tokei sd xh bottom jujutsu fish-shell)
     else
         echo "Script not configured for $OS, aborting"
         exit 1
